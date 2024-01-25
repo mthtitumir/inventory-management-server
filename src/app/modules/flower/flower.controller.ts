@@ -4,7 +4,7 @@ import sendResponse from '../../utils/sendResponse';
 import { FlowerService } from './flower.service';
 
 const addFlower = catchAsync(async (req, res) => {
-  const result = await FlowerService.addFlowerIntoDB();
+  const result = await FlowerService.addFlowerIntoDB(req?.body);
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
@@ -14,7 +14,8 @@ const addFlower = catchAsync(async (req, res) => {
 });
 
 const deleteFlower = catchAsync(async (req, res) => {
-  const result = await FlowerService.addFlowerIntoDB();
+  const flowerId = req?.params?.flowerId;
+  const result = await FlowerService.deleteFlowerFromDB(flowerId);
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
@@ -24,7 +25,7 @@ const deleteFlower = catchAsync(async (req, res) => {
 });
 
 const updateFlower = catchAsync(async (req, res) => {
-  const result = await FlowerService.addFlowerIntoDB();
+  const result = await FlowerService.updateFlowerInDB();
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
@@ -34,7 +35,7 @@ const updateFlower = catchAsync(async (req, res) => {
 });
 
 const getSingleFlower = catchAsync(async (req, res) => {
-  const result = await FlowerService.addFlowerIntoDB();
+  const result = await FlowerService.getSingleFlowerFromDB();
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
@@ -44,7 +45,7 @@ const getSingleFlower = catchAsync(async (req, res) => {
 });
 
 const getAllFlower = catchAsync(async (req, res) => {
-  const result = await FlowerService.addFlowerIntoDB();
+  const result = await FlowerService.getAllFlowerFromDB();
   sendResponse(res, {
     success: true,
     statusCode: 201,
@@ -54,7 +55,7 @@ const getAllFlower = catchAsync(async (req, res) => {
 });
 
 const bulkDeleteFlower = catchAsync(async (req, res) => {
-  const result = await FlowerService.addFlowerIntoDB();
+  const result = await FlowerService.bulkDeleteFlowerFromDB();
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
@@ -64,10 +65,10 @@ const bulkDeleteFlower = catchAsync(async (req, res) => {
 });
 
 export const FlowerController = {
-    addFlower,
-    deleteFlower,
-    updateFlower,
-    getSingleFlower,
-    getAllFlower,
-    bulkDeleteFlower
-}
+  addFlower,
+  deleteFlower,
+  updateFlower,
+  getSingleFlower,
+  getAllFlower,
+  bulkDeleteFlower,
+};

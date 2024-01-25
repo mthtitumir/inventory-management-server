@@ -1,3 +1,6 @@
+/* eslint-disable no-unused-vars */
+import { Model } from 'mongoose';
+
 export type TFlower = {
   name: string;
   price: number;
@@ -18,3 +21,7 @@ export type TFlower = {
     | 'lily of the valley'
     | 'violet and peony';
 };
+
+export interface FlowerModel extends Model<TFlower> {
+  isFlowerExists(flowerId: string): Promise<TFlower>;
+}

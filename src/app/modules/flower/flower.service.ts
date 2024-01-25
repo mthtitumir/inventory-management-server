@@ -1,7 +1,13 @@
-const addFlowerIntoDB = async() => {
+import { TFlower } from "./flower.interface"
+import { Flower } from "./flower.model"
 
+const addFlowerIntoDB = async(payload: TFlower) => {
+    const result = await Flower.create(payload);
+    return result;
 }
-const deleteFlowerFromDB = async() => {
+const deleteFlowerFromDB = async(flowerId: string) => {
+    // check if the flower exists or not 
+    
 
 }
 const updateFlowerInDB = async() => {

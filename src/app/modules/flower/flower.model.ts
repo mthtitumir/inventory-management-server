@@ -1,12 +1,12 @@
 import { Schema, model } from 'mongoose';
-import { TFlower } from './flower.interface';
+import { FlowerModel, TFlower } from './flower.interface';
 import {
   flowerCategoryType,
   flowerFragrance,
   flowerSize,
 } from './flower.constant';
 
-const flowerSchema = new Schema<TFlower>({
+const flowerSchema = new Schema<TFlower, FlowerModel>({
   name: { type: String, required: true },
   price: { type: Number, required: true },
   quantity: { type: Number, required: true },
@@ -26,5 +26,9 @@ const flowerSchema = new Schema<TFlower>({
     required: true,
   },
 });
+
+flowerSchema.statics.isFlowerExists = async function (flowerId: string) {
+  return await Flower.findById(flowerId);
+};
 
 export const Flower = model<TFlower>('Flower', flowerSchema);

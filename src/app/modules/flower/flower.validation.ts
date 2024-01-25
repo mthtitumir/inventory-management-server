@@ -7,11 +7,12 @@ import {
 
 const createFlowerSchema = z.object({
   body: z.object({
+    seller: z.string(),
     name: z.string(),
     price: z.number(),
     quantity: z.number(),
     bloomDate: z.string().datetime().optional(),
-    color: z.string().optional(),
+    color: z.string(),
     type: z.enum([...flowerCategoryType] as [string, ...string[]]).optional(),
     size: z.enum([...flowerSize] as [string, ...string[]]).optional(),
     arrangement: z.string().optional(),
@@ -35,7 +36,14 @@ const updateFlowerSchema = z.object({
   }),
 });
 
+const deleteManyFlowerSchema = z.object({
+  body: z.object({
+    flowerIdArray: z.array(z.string())
+  })
+})
+
 export const FlowerValidation = {
   createFlowerSchema,
   updateFlowerSchema,
+  deleteManyFlowerSchema
 };

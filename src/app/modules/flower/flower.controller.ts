@@ -25,7 +25,8 @@ const deleteFlower = catchAsync(async (req, res) => {
 });
 
 const updateFlower = catchAsync(async (req, res) => {
-  const result = await FlowerService.updateFlowerInDB();
+  const flowerId = req?.params?.flowerId;
+  const result = await FlowerService.updateFlowerInDB(flowerId, req?.body);
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
@@ -35,7 +36,7 @@ const updateFlower = catchAsync(async (req, res) => {
 });
 
 const getSingleFlower = catchAsync(async (req, res) => {
-  const result = await FlowerService.getSingleFlowerFromDB();
+  const result = await FlowerService.getSingleFlowerFromDB(req?.params?.flowerId);
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
@@ -55,7 +56,7 @@ const getAllFlower = catchAsync(async (req, res) => {
 });
 
 const bulkDeleteFlower = catchAsync(async (req, res) => {
-  const result = await FlowerService.bulkDeleteFlowerFromDB();
+  const result = await FlowerService.bulkDeleteFlowerFromDB(req?.body?.flowerIdArray);
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,

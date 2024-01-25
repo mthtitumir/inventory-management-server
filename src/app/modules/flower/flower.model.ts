@@ -7,23 +7,22 @@ import {
 } from './flower.constant';
 
 const flowerSchema = new Schema<TFlower, FlowerModel>({
-  name: { type: String, required: true },
-  price: { type: Number, required: true },
-  quantity: { type: Number, required: true },
-  bloomDate: { type: Date, required: true },
-  color: { type: String, required: true },
+  seller: {type: Schema.Types.ObjectId, required: [true, "Seller is required!"]},
+  name: { type: String, required: [true, "Name is required!"] },
+  price: { type: Number, required: [true, "Price is required!"] },
+  quantity: { type: Number, required: [true, "Quantity is required!"] },
+  bloomDate: { type: Date },
+  color: { type: String, required: [true, "Color is required!"] },
   type: {
     type: String,
     enum: flowerCategoryType,
-    required: true,
   },
-  size: { type: String, enum: flowerSize, required: true },
-  arrangement: { type: String, required: true },
-  style: { type: String, required: true },
+  size: { type: String, enum: flowerSize, required: [true, "Size is required!"] },
+  arrangement: { type: String },
+  style: { type: String },
   fragrance: {
     type: String,
     enum: flowerFragrance,
-    required: true,
   },
 }, {timestamps: true});
 

@@ -1,16 +1,17 @@
 /* eslint-disable no-unused-vars */
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 
 export type TFlower = {
+  seller: Types.ObjectId;
   name: string;
   price: number;
   quantity: number;
-  bloomDate: Date;
+  bloomDate?: Date;
   color: string;
-  type: 'Annuals' | 'Perennials' | 'Biennials';
+  type?: 'Annuals' | 'Perennials' | 'Biennials';
   size: 's' | 'm' | 'l' | 'xl' | 'xxl';
-  arrangement: string;
-  style: string;
+  arrangement?: string;
+  style?: string;
   fragrance:
     | 'rose'
     | 'neroli'

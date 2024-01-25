@@ -29,20 +29,18 @@ router.delete(
 
 router.patch(
   '/:flowerId',
-  validateRequest(FlowerValidation.updateFlowerSchema),
   auth(),
+  validateRequest(FlowerValidation.updateFlowerSchema),
   FlowerController.updateFlower,
 );
 
 router.get(
   '/:flowerId',
-  auth(),
   FlowerController.getSingleFlower,
 );
 
 router.get(
   '/',
-  auth(),
   FlowerController.getAllFlower,
 );
 

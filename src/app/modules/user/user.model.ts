@@ -24,25 +24,7 @@ const userSchema = new Schema<TUser, UserModel>(
     },
     profilePicture: {
       type: String,
-    },
-    bio: {
-      type: String,
-    },
-    timeZone: {
-      type: String,
-    },
-    projects: {
-      type: [{ type: Schema.Types.ObjectId, ref: 'Project' }],
-      default: [],
-    },
-    role: {
-      type: String,
-      enum: {
-        values: ['user', 'admin'],
-        message: '{VALUE} is not a valid role!',
-      },
-      default: 'user',
-    },
+    }
   },
   {
     timestamps: true,

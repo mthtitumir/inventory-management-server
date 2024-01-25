@@ -14,22 +14,42 @@ const router = express.Router();
  * 6. Bulk delete flowers;
  */
 
-
 router.post(
   '/',
   auth(),
   validateRequest(FlowerValidation.createFlowerSchema),
   FlowerController.addFlower,
 );
+
 router.delete(
   '/:flowerId',
   auth(),
   FlowerController.deleteFlower,
 );
+
 router.patch(
   '/:flowerId',
+  validateRequest(FlowerValidation.updateFlowerSchema),
   auth(),
-  FlowerController.deleteFlower,
+  FlowerController.updateFlower,
+);
+
+router.get(
+  '/:flowerId',
+  auth(),
+  FlowerController.getSingleFlower,
+);
+
+router.get(
+  '/',
+  auth(),
+  FlowerController.getAllFlower,
+);
+
+router.delete(
+  '/',
+  auth(),
+  FlowerController.bulkDeleteFlower,
 );
 
 export const FlowerRoutes = router;

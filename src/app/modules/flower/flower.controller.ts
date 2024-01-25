@@ -1,3 +1,4 @@
+import httpStatus from 'http-status';
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import { FlowerService } from './flower.service';
@@ -6,8 +7,8 @@ const addFlower = catchAsync(async (req, res) => {
   const result = await FlowerService.addFlowerIntoDB();
   sendResponse(res, {
     success: true,
-    statusCode: 201,
-    message: 'Course created successfully',
+    statusCode: httpStatus.OK,
+    message: 'Flower added successfully!',
     data: result,
   });
 });
@@ -16,8 +17,8 @@ const deleteFlower = catchAsync(async (req, res) => {
   const result = await FlowerService.addFlowerIntoDB();
   sendResponse(res, {
     success: true,
-    statusCode: 201,
-    message: 'Course created successfully',
+    statusCode: httpStatus.OK,
+    message: 'Flower deleted successfully!',
     data: result,
   });
 });
@@ -26,8 +27,8 @@ const updateFlower = catchAsync(async (req, res) => {
   const result = await FlowerService.addFlowerIntoDB();
   sendResponse(res, {
     success: true,
-    statusCode: 201,
-    message: 'Course created successfully',
+    statusCode: httpStatus.OK,
+    message: 'Flower updated successfully!',
     data: result,
   });
 });
@@ -36,8 +37,8 @@ const getSingleFlower = catchAsync(async (req, res) => {
   const result = await FlowerService.addFlowerIntoDB();
   sendResponse(res, {
     success: true,
-    statusCode: 201,
-    message: 'Course created successfully',
+    statusCode: httpStatus.OK,
+    message: 'Flower retrieved successfully!',
     data: result,
   });
 });
@@ -47,7 +48,7 @@ const getAllFlower = catchAsync(async (req, res) => {
   sendResponse(res, {
     success: true,
     statusCode: 201,
-    message: 'Course created successfully',
+    message: 'Flowers retrieved successfully!',
     data: result,
   });
 });
@@ -56,8 +57,8 @@ const bulkDeleteFlower = catchAsync(async (req, res) => {
   const result = await FlowerService.addFlowerIntoDB();
   sendResponse(res, {
     success: true,
-    statusCode: 201,
-    message: 'Course created successfully',
+    statusCode: httpStatus.OK,
+    message: 'Flowers deleted successfully!',
     data: result,
   });
 });

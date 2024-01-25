@@ -4,11 +4,6 @@ import config from '../../config';
 import { TUser, UserModel } from './user.interface';
 const userSchema = new Schema<TUser, UserModel>(
   {
-    username: {
-      type: String,
-      required: [true, 'Username is required!'],
-      unique: true,
-    },
     email: {
       type: String,
       required: [true, 'Email is required!'],

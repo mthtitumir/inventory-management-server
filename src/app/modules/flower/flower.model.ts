@@ -25,10 +25,10 @@ const flowerSchema = new Schema<TFlower, FlowerModel>({
     enum: flowerFragrance,
     required: true,
   },
-});
+}, {timestamps: true});
 
 flowerSchema.statics.isFlowerExists = async function (flowerId: string) {
   return await Flower.findById(flowerId);
 };
 
-export const Flower = model<TFlower>('Flower', flowerSchema);
+export const Flower = model<TFlower, FlowerModel>('Flower', flowerSchema);

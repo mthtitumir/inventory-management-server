@@ -61,7 +61,7 @@ const getAllFlowerFromDB = async (query: Record<string, unknown>) => {
         }))
     });
     const result = await searchQuery.find(filter).sort({ [sortBy as string]: sortOrder === 'asc' ? 1 : -1 }).skip(skip).limit(parseInt(limit as string));
-
+    return result;
 };
 
 const bulkDeleteFlowerFromDB = async (flowerIdArray: string[]) => {

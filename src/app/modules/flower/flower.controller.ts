@@ -4,7 +4,8 @@ import sendResponse from '../../utils/sendResponse';
 import { FlowerService } from './flower.service';
 
 const addFlower = catchAsync(async (req, res) => {
-  const result = await FlowerService.addFlowerIntoDB(req?.body);
+    const {flowerData} = req.body;
+  const result = await FlowerService.addFlowerIntoDB(req?.file, flowerData);
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,

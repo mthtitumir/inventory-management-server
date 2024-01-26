@@ -6,6 +6,7 @@ export type TFlower = {
   name: string;
   price: number;
   quantity: number;
+  image: string;
   bloomDate?: Date;
   color: string;
   type?: 'Annuals' | 'Perennials' | 'Biennials';

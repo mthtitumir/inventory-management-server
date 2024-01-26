@@ -11,6 +11,7 @@ const flowerSchema = new Schema<TFlower, FlowerModel>({
   name: { type: String, required: [true, "Name is required!"] },
   price: { type: Number, required: [true, "Price is required!"] },
   quantity: { type: Number, required: [true, "Quantity is required!"] },
+  image: { type: String, required: [true, "Image is required!"] },
   bloomDate: { type: Date },
   color: { type: String, required: [true, "Color is required!"] },
   type: {

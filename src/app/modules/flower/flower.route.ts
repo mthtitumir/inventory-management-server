@@ -18,9 +18,9 @@ const router = express.Router();
 router.post(
   '/',
   auth(),
-  upload.single('file'),
+  // upload.single('file'),
   (req: Request, res: Response, next: NextFunction) => {
-    console.log(req.body);
+    console.log(req.file);
     req.body = JSON.parse(req.body.data);
     next();
   },

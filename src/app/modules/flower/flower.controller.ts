@@ -4,7 +4,7 @@ import sendResponse from '../../utils/sendResponse';
 import { FlowerService } from './flower.service';
 
 const addFlower = catchAsync(async (req, res) => {
-    const {flowerData} = req.body;
+  const { flowerData } = req.body;
   const result = await FlowerService.addFlowerIntoDB(req?.file, flowerData);
   sendResponse(res, {
     success: true,
@@ -37,7 +37,9 @@ const updateFlower = catchAsync(async (req, res) => {
 });
 
 const getSingleFlower = catchAsync(async (req, res) => {
-  const result = await FlowerService.getSingleFlowerFromDB(req?.params?.flowerId);
+  const result = await FlowerService.getSingleFlowerFromDB(
+    req?.params?.flowerId,
+  );
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
@@ -57,7 +59,9 @@ const getAllFlower = catchAsync(async (req, res) => {
 });
 
 const bulkDeleteFlower = catchAsync(async (req, res) => {
-  const result = await FlowerService.bulkDeleteFlowerFromDB(req?.body?.flowerIdArray);
+  const result = await FlowerService.bulkDeleteFlowerFromDB(
+    req?.body?.flowerIdArray,
+  );
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,

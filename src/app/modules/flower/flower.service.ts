@@ -50,7 +50,19 @@ const getSingleFlowerFromDB = async (flowerId: string) => {
   return flowerData;
 };
 
-const getAllFlowerFromDB = async () => {};
+const getAllFlowerFromDB = async (query: Record<string, unknown>) => {
+    const {searchTerm = '', page = 1, limit = 10, sortBy, sortOrder = 'asc', } = query;
+    const filter: Record<string, unknown> = { };
+    const skip = (Number(page) - 1) * Number(limit);
+    const flowerSearchableFields = ["color"];
+    const searchQuery = Flower.find({
+        $or: flowerSearchableFields.map((field) => ({
+            [field]: {$regex: searchTerm, $options: "i"}
+        }))
+    });
+    const result = await searchQuery.find(filter).sort({ [sortBy as string]: sortOrder === 'asc' ? 1 : -1 }).skip(skip).limit(parseInt(limit as string));
+
+};
 
 const bulkDeleteFlowerFromDB = async (flowerIdArray: string[]) => {
   const result = await Flower.deleteMany({ _id: { $in: flowerIdArray } });

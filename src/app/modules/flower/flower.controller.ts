@@ -49,7 +49,7 @@ const getSingleFlower = catchAsync(async (req, res) => {
 });
 
 const getAllFlower = catchAsync(async (req, res) => {
-  const result = await FlowerService.getAllFlowerFromDB();
+  const result = await FlowerService.getAllFlowerFromDB(req?.query);
   sendResponse(res, {
     success: true,
     statusCode: 201,

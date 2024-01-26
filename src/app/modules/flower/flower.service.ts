@@ -2,18 +2,10 @@ import httpStatus from 'http-status';
 import AppError from '../../errors/AppError';
 import { TFlower } from './flower.interface';
 import { Flower } from './flower.model';
-import { sendImageToCloudinary } from '../../utils/sendImgToCloudinary';
-import { v4 as uuidv4 } from 'uuid';
 
-const addFlowerIntoDB = async (file: any, payload: TFlower) => {
-  const uuid = uuidv4();
-  const imageName = `/flowers/${uuid}${payload?.name}`;
-  const path = file?.path;
-  //send image to cloudinary
-  const { secure_url } = await sendImageToCloudinary(imageName, path);
-  payload.image = secure_url;
-  //   const result = await Flower.create(payload);
-  return payload;
+const addFlowerIntoDB = async (payload: TFlower) => {
+  const result = await Flower.create(payload);
+  return result;
 };
 
 const deleteFlowerFromDB = async (flowerId: string) => {
@@ -51,17 +43,27 @@ const getSingleFlowerFromDB = async (flowerId: string) => {
 };
 
 const getAllFlowerFromDB = async (query: Record<string, unknown>) => {
-    const {searchTerm = '', page = 1, limit = 10, sortBy, sortOrder = 'asc', } = query;
-    const filter: Record<string, unknown> = { };
-    const skip = (Number(page) - 1) * Number(limit);
-    const flowerSearchableFields = ["color"];
-    const searchQuery = Flower.find({
-        $or: flowerSearchableFields.map((field) => ({
-            [field]: {$regex: searchTerm, $options: "i"}
-        }))
-    });
-    const result = await searchQuery.find(filter).sort({ [sortBy as string]: sortOrder === 'asc' ? 1 : -1 }).skip(skip).limit(parseInt(limit as string));
-    return result;
+  const {
+    searchTerm = '',
+    page = 1,
+    limit = 10,
+    sortBy,
+    sortOrder = 'asc',
+  } = query;
+  const filter: Record<string, unknown> = {};
+  const skip = (Number(page) - 1) * Number(limit);
+  const flowerSearchableFields = ['color'];
+  const searchQuery = Flower.find({
+    $or: flowerSearchableFields.map((field) => ({
+      [field]: { $regex: searchTerm, $options: 'i' },
+    })),
+  });
+  const result = await searchQuery
+    .find(filter)
+    .sort({ [sortBy as string]: sortOrder === 'asc' ? 1 : -1 })
+    .skip(skip)
+    .limit(parseInt(limit as string));
+  return result;
 };
 
 const bulkDeleteFlowerFromDB = async (flowerIdArray: string[]) => {

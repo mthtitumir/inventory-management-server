@@ -1,9 +1,8 @@
-import express, { NextFunction, Request, Response } from "express"
+import express from "express"
 import validateRequest from "../../middlewares/validateRequest";
 import { FlowerValidation } from "./flower.validation";
 import { FlowerController } from "./flower.controller";
 import auth from "../../middlewares/auth";
-import { upload } from "../../utils/sendImgToCloudinary";
 const router = express.Router();
 
 /**
@@ -18,12 +17,6 @@ const router = express.Router();
 router.post(
   '/',
   auth(),
-  // upload.single('file'),
-  (req: Request, res: Response, next: NextFunction) => {
-    console.log(req.file);
-    req.body = JSON.parse(req.body.data);
-    next();
-  },
   validateRequest(FlowerValidation.createFlowerSchema),
   FlowerController.addFlower,
 );

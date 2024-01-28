@@ -1,15 +1,32 @@
 /* eslint-disable no-unused-vars */
 import { Model, Types } from 'mongoose';
-
+type TFlowerCategoryType =
+  | "Alstromerias"
+  | "Calla Lillies"
+  | "Carnations"
+  | "Disbud Chrysanthemums"
+  | "Ecuador Roses"
+  | "Follage"
+  | "Gerbras"
+  | "Malaysian Chrysanthemums"
+  | "Spray Carnations"
+  | "Spray Chrysanthemums"
+  | "Super Premiums"
+  | "Uncategorized"
+  | "Intermediate Roses"
+  | "Premium Roses"
+  | "Sprays"
+  | "Wholesale Mixes";
+  
 export type TFlower = {
   seller: Types.ObjectId;
   name: string;
   price: number;
   quantity: number;
   image: string;
-  bloomDate?: Date;
+  bloomDate?: string;
   color: string;
-  type?: 'Annuals' | 'Perennials' | 'Biennials';
+  type: TFlowerCategoryType;
   size: 's' | 'm' | 'l' | 'xl' | 'xxl';
   arrangement?: string;
   style?: string;

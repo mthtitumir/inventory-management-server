@@ -3,9 +3,8 @@ import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import { FlowerService } from './flower.service';
 
-const addFlower = catchAsync(async (req, res) => {
-  const { flowerData } = req.body;
-  const result = await FlowerService.addFlowerIntoDB(req?.file, flowerData);
+const addFlower = catchAsync(async (req, res) => {  
+  const result = await FlowerService.addFlowerIntoDB(req.body);
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,

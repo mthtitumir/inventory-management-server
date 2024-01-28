@@ -46,7 +46,7 @@ const getAllFlowerFromDB = async (query: Record<string, unknown>) => {
   const {
     searchTerm = '',
     page = 1,
-    limit = 10,
+    limit = 20,
     sortBy,
     sortOrder = 'asc',
   } = query;

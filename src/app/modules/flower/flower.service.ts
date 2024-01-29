@@ -60,6 +60,9 @@ const getAllFlowerFromDB = async (query: Record<string, unknown>) => {
   if (query.size) {
     filter.size = query.size;
   }
+  if (query.minPrice || query.maxPrice) {
+    filter.price = { $gte: parseInt(query.minPrice as string), $lte: parseInt(query.maxPrice as string) }
+  }
   const skip = (Number(page) - 1) * Number(limit);
   const flowerSearchableFields = [
     'name',

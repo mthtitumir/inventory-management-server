@@ -27,7 +27,7 @@ const flowerSchema = new Schema<TFlower, FlowerModel>({
   },
 }, {timestamps: true});
 
-flowerSchema.statics.isFlowerExists = async function (flowerId: string) {
+flowerSchema.statics.isFlowerExists = async function (flowerId: string | Schema.Types.ObjectId) {
   return await Flower.findById(flowerId);
 };
 

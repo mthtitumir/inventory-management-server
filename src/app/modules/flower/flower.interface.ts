@@ -42,5 +42,5 @@ export type TFlower = {
 };
 
 export interface FlowerModel extends Model<TFlower> {
-  isFlowerExists(flowerId: string): Promise<TFlower>;
+  isFlowerExists(flowerId: string | Types.ObjectId): Promise<TFlower>;
 }

@@ -1,4 +1,3 @@
-
 export const flowerCategoryType = [
   "Alstromerias",
   "Calla Lillies",

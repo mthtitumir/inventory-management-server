@@ -14,6 +14,7 @@ const addFlower = catchAsync(async (req, res) => {
 });
 
 const deleteFlower = catchAsync(async (req, res) => {
+  
   const flowerId = req?.params?.flowerId;
   const result = await FlowerService.deleteFlowerFromDB(flowerId);
   sendResponse(res, {
@@ -26,6 +27,7 @@ const deleteFlower = catchAsync(async (req, res) => {
 
 const updateFlower = catchAsync(async (req, res) => {
   const flowerId = req?.params?.flowerId;
+  
   const result = await FlowerService.updateFlowerInDB(flowerId, req?.body);
   sendResponse(res, {
     success: true,

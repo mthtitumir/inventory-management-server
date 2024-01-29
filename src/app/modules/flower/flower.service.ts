@@ -16,7 +16,7 @@ const deleteFlowerFromDB = async (flowerId: string) => {
   }
 
   //   check if the owner (who added the flower) is deleting it or anyone else
-  const result = await Flower.findByIdAndDelete(flowerId);
+  const result = await Flower.deleteOne({ _id: flowerId });
   return result;
 };
 
@@ -51,8 +51,25 @@ const getAllFlowerFromDB = async (query: Record<string, unknown>) => {
     sortOrder = 'asc',
   } = query;
   const filter: Record<string, unknown> = {};
+  if (query.fragrance) {
+    filter.fragrance = query.fragrance;
+  }
+  if (query.type) {
+    filter.type = query.type;
+  }
+  if (query.size) {
+    filter.size = query.size;
+  }
   const skip = (Number(page) - 1) * Number(limit);
-  const flowerSearchableFields = ['color'];
+  const flowerSearchableFields = [
+    'name',
+    'color',
+    'style',
+    'arrangement',
+    'type',
+    'size',
+    'fragrance',
+  ];
   const searchQuery = Flower.find({
     $or: flowerSearchableFields.map((field) => ({
       [field]: { $regex: searchTerm, $options: 'i' },

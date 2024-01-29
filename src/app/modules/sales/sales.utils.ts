@@ -107,6 +107,109 @@ export const getYearlySales = async (query: any): Promise<any> => {
   return yearlySalesData;
 };
 
+// const weekwiseSalesData = await Sales.aggregate([
+//     {
+//       $match: {
+//         dateOfSale: {
+//           $gte: new Date(startDate),
+//           $lt: new Date(endDate),
+//         },
+//       },
+//     },
+//     {
+//       $group: {
+//         _id: {
+//           year: { $isoWeekYear: '$dateOfSale' },
+//           week: { $isoWeek: '$dateOfSale' },
+//         },
+//         count: { $sum: 1 },
+//         totalQuantity: { $sum: '$quantity' },
+//       },
+//     },
+//     {
+//       $sort: { '_id.year': 1, '_id.week': 1 },
+//     },
+//     {
+//       $project: {
+//         _id: 0,
+//         year: '$_id.year',
+//         week: '$_id.week',
+//         count: '$count',
+//         totalQuantity: '$totalQuantity',
+//       },
+//     },
+//   ]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //old manual data//
 
 // /* eslint-disable no-unused-vars */

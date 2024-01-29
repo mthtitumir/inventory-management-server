@@ -13,6 +13,7 @@ const addNewSales = catchAsync(async(req, res)=>{
       data: result,
     });
 });
+
 const getAllSales = catchAsync(async(req, res)=>{
     const result = await SalesService.getAllSalesFromDB(req?.query);
 

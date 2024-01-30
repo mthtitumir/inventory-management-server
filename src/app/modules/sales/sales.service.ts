@@ -9,6 +9,7 @@ import {
   getWeeklySales,
   getYearlySales,
 } from './sales.utils';
+import moment from 'moment';
 
 const addNewSalesIntoDB = async (payload: TSales) => {
   const flower = await Flower.isFlowerExists(payload.product);
@@ -26,6 +27,35 @@ const addNewSalesIntoDB = async (payload: TSales) => {
 };
 
 const getAllSalesFromDB = async (query: Record<string, unknown>) => {
+  // need search/ filter query update later
+  // range === 'day' | 'week' | 'month' | 'year'
+  const { range, from, to } = query;
+  let result = await Sales.find().populate('product');
+  if (range) {
+    const startOfRange = moment()
+      .startOf(range)
+      .format('YYYY-MM-DDTHH:mm:ss.SSSZ');
+    const endOfRange = moment().endOf(range).format('YYYY-MM-DDTHH:mm:ss.SSSZ');
+
+    result = await Sales.find({
+      dateOfSale: { $gte: startOfRange, $lte: endOfRange },
+    }).populate('product');
+  }
+
+  if (from && to){
+    // need to handle only one from or to data further
+    // const abc = moment("2024-01-30T09:15:52.154Z").format('YYYY-MM-DDTHH:mm:ss.SSSZ')
+    const startOfRange = moment(from).format('YYYY-MM-DDTHH:mm:ss.SSSZ');
+    const endOfRange = moment(to).format('YYYY-MM-DDTHH:mm:ss.SSSZ');
+
+    result = await Sales.find({
+      dateOfSale: { $gte: startOfRange, $lte: endOfRange },
+    }).populate('product');
+  }
+  
+  return result;
+};
+const getSalesHistoryFromDB = async (query: Record<string, unknown>) => {
   const { salesHistory } = query;
   let salesData = await Sales.find({});
   switch (salesHistory) {
@@ -48,11 +78,12 @@ const getAllSalesFromDB = async (query: Record<string, unknown>) => {
     //   salesData = await Sales.find({});
     //   return;
   }
-  
+
   return salesData;
 };
 
 export const SalesService = {
   addNewSalesIntoDB,
   getAllSalesFromDB,
+  getSalesHistoryFromDB,
 };

@@ -12,7 +12,23 @@ const app: Application = express();
 
 //parsers
 app.use(express.json());
-app.use(cors({ origin: ['http://localhost:5173'], credentials: true }));
+// app.use(cors({ origin: ['http://localhost:5173', 'https://flower-management-client-iota.vercel.app', 'https://flower-management-client-mthtitumir.vercel.app'], credentials: true }));
+// app.use(cors());
+const allowedOrigins = ['http://localhost:5173', 'https://flower-management-client-iota.vercel.app', 'https://flower-management-client-mthtitumir.vercel.app'];
+
+const corsOptions = {
+  origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
 
 // application routes
 app.use('/api/v1', router);

@@ -19,4 +19,6 @@ router.post(
 
 router.get('/', auth(), SalesController.getAllSales);
 
+router.get('/history', auth(), SalesController.getAllSales);
+
 export const SalesRoutes = router;

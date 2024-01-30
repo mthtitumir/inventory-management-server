@@ -15,8 +15,17 @@ const addNewSales = catchAsync(async (req, res) => {
 });
 
 const getAllSales = catchAsync(async (req, res) => {
- 
   const result = await SalesService.getAllSalesFromDB(req.query);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'All Sales retrieved successfully!',
+    data: result,
+  });
+});
+const getAllSalesHistory = catchAsync(async (req, res) => {
+  const result = await SalesService.getSalesHistoryFromDB();
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -29,4 +38,5 @@ const getAllSales = catchAsync(async (req, res) => {
 export const SalesController = {
   addNewSales,
   getAllSales,
+  getAllSalesHistory
 };

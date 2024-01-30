@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import { UserRoutes } from '../modules/user/user.route';
-import { TaskRoutes } from '../modules/task/task.route';
 import { AuthRoutes } from '../modules/auth/auth.route';
 import { FlowerRoutes } from '../modules/flower/flower.route';
 import { SalesRoutes } from '../modules/sales/sales.route';
@@ -11,10 +10,6 @@ const moduleRoutes = [
   {
     path: '/users',
     route: UserRoutes,
-  },
-  {
-    path: '/tasks',
-    route: TaskRoutes,
   },
   {
     path: '/flowers',

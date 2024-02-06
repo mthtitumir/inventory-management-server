@@ -1,5 +1,4 @@
 import { TLoginUser } from "./auth.interface"
-
 import httpStatus from 'http-status';
 import config from '../../config';
 import AppError from '../../errors/AppError';

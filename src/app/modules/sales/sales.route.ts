@@ -4,6 +4,7 @@ import validateRequest from '../../middlewares/validateRequest';
 import { SalesValidation } from './sales.validation';
 import { SalesController } from './sales.controller';
 const router = express.Router();
+
 /**
  * 1. Add a sales
  * 2. Get all sales data of a user with proper filtering

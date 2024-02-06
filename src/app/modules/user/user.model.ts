@@ -13,6 +13,10 @@ const userSchema = new Schema<TUser, UserModel>(
       type: String,
       required: [true, 'Password is required!'],
     },
+    role: {
+      type: String,
+      enum: ['superAdmin', 'admin', 'manager', 'staff'],
+    },
     name: {
       type: String,
       required: [true, 'Name is required!'],

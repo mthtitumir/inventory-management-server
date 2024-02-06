@@ -1,13 +1,14 @@
 /* eslint-disable no-unused-vars */
 import { Model } from "mongoose";
+import { USER_ROLE } from "./user.constant";
 
 export type TUser = {
   email: string;
+  role: "superAdmin" | "admin" | "manager" | "staff";
   password: string;
   name: string;
   profilePicture?: string;
 };
-
 
 export interface UserModel extends Model<TUser> {
   //instance methods for checking if the user exist
@@ -18,3 +19,5 @@ export interface UserModel extends Model<TUser> {
     hashedPassword: string,
   ): Promise<boolean>;
 }
+
+export type TUserRole = keyof typeof USER_ROLE;

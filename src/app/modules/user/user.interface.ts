@@ -4,7 +4,7 @@ import { USER_ROLE } from "./user.constant";
 
 export type TUser = {
   email: string;
-  role: "superAdmin" | "admin" | "manager" | "staff";
+  role: "superAdmin" | "admin" | "manager" | "seller";
   password: string;
   name: string;
   profilePicture?: string;

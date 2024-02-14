@@ -3,6 +3,7 @@ import validateRequest from "../../middlewares/validateRequest";
 import { FlowerValidation } from "./flower.validation";
 import { FlowerController } from "./flower.controller";
 import auth from "../../middlewares/auth";
+import { USER_ROLE } from "../user/user.constant";
 const router = express.Router();
 
 /**
@@ -16,20 +17,20 @@ const router = express.Router();
 
 router.post(
   '/',
-  auth(),
+  auth(USER_ROLE.admin, USER_ROLE.manager),
   validateRequest(FlowerValidation.createFlowerSchema),
   FlowerController.addFlower,
 );
 
 router.delete(
   '/:flowerId',
-  auth(),
+  auth(USER_ROLE.admin, USER_ROLE.manager),
   FlowerController.deleteFlower,
 );
 
 router.patch(
   '/:flowerId',
-  auth(),
+  auth(USER_ROLE.admin, USER_ROLE.manager),
   validateRequest(FlowerValidation.updateFlowerSchema),
   FlowerController.updateFlower,
 );
@@ -46,7 +47,7 @@ router.get(
 
 router.delete(
   '/',
-  auth(),
+  auth(USER_ROLE.admin, USER_ROLE.manager),
   FlowerController.bulkDeleteFlower,
 );
 

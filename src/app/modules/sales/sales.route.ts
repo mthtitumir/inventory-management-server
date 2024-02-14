@@ -3,6 +3,7 @@ import auth from '../../middlewares/auth';
 import validateRequest from '../../middlewares/validateRequest';
 import { SalesValidation } from './sales.validation';
 import { SalesController } from './sales.controller';
+import { USER_ROLE } from '../user/user.constant';
 const router = express.Router();
 
 /**
@@ -13,12 +14,16 @@ const router = express.Router();
 
 router.post(
   '/',
-  auth(),
+  auth(USER_ROLE.admin, USER_ROLE.manager, USER_ROLE.seller),
   validateRequest(SalesValidation.createSalesSchema),
   SalesController.addNewSales,
 );
 
-router.get('/', auth(), SalesController.getAllSales);
+router.get(
+  '/',
+  auth(USER_ROLE.admin, USER_ROLE.manager, USER_ROLE.seller),
+  SalesController.getAllSales,
+);
 
 router.get('/history', auth(), SalesController.getAllSales);
 

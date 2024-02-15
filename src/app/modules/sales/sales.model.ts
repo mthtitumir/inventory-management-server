@@ -8,6 +8,7 @@ const salesSchema = new Schema<TSales>(
     quantity: { type: Number, required: true },
     dateOfSale: { type: Date, required: true },
     product: { type: Schema.Types.ObjectId, ref: 'Flower', required: true },
+    discountCode: { type: Schema.Types.ObjectId, ref: 'Discount' },
   },
   { timestamps: true }
 );

@@ -6,4 +6,5 @@ export type TSales = {
     quantity: number;
     dateOfSale: Date;
     product: Types.ObjectId;
+    discountCode?: Types.ObjectId;
 }

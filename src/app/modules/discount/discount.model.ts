@@ -3,7 +3,12 @@ import { TDiscount } from "./discount.interface"
 
 const discountSchema = new Schema<TDiscount>(
   {
-    name: String,
+    code: {type: String, required: true},
+    type: {
+      type: String,
+      enum: ['amountOff', 'percentOff'],
+      required: true,
+    },
     startDate: {
       type: Date,
       required: true,

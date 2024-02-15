@@ -46,7 +46,7 @@ const updateDiscount = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'All Sales retrieved successfully!',
+    message: 'Discount updated successfully!',
     data: result,
   });
 });

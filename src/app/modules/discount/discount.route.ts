@@ -1,6 +1,6 @@
 import express from 'express';
 import validateRequest from '../../middlewares/validateRequest';
-import { DiscountValidation } from './discount.schema';
+import { DiscountValidation } from './discount.validation';
 import { DiscountControllers } from './discount.controller';
 import auth from '../../middlewares/auth';
 import { USER_ROLE } from '../user/user.constant';

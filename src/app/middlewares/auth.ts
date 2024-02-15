@@ -27,9 +27,11 @@ const auth = (...requiredRoles: TUserRole[]) => {
       // console.log(errror);
       throw new AppError(httpStatus.UNAUTHORIZED, 'Token invalid!');
     }
+    console.log(decoded);
+    
 
     const { role, email } = decoded;
-
+    
     // checking if the user is exist
     const user = await User.isUserExists({ email });
 

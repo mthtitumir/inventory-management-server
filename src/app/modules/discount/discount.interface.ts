@@ -8,6 +8,7 @@ export type TDiscount = {
   percentOff?: number;
   amountOff?: number;
   minOrderValue?: number;
+  minOrderQuantity?: number;
   valid?: boolean;
   limitPerCustomer?: number;
 };

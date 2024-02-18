@@ -31,6 +31,10 @@ const discountSchema = new Schema<TDiscount>(
       type: Number,
       default: 0,
     },
+    minOrderQuantity: {
+      type: Number,
+      default: 0,
+    },
     valid: {
       type: Boolean,
       default: true,

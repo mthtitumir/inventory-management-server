@@ -16,7 +16,7 @@ const addNewBuyer = catchAsync(async (req, res) => {
 
 const getAllBuyer = catchAsync(async (req, res) => {
     // filter/query must be refactored
-  const result = await BuyerServices.getAllBuyerFromDB({...req?.query, valid: true});
+  const result = await BuyerServices.getAllBuyerFromDB({...req?.query});
 
   sendResponse(res, {
     statusCode: httpStatus.OK,

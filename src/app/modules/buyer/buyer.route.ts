@@ -15,7 +15,7 @@ router.post(
 );
 
 router.get(
-  '/:buyerId',
+  '/',
   auth(USER_ROLE.manager, USER_ROLE.seller, USER_ROLE.admin),
   BuyerControllers.getAllBuyer,
 );

@@ -1,12 +1,12 @@
 /* eslint-disable no-unused-vars */
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 
 export type TBuyer = {
   name: string;
   email: string;
   phoneNumber: string;
   profilePicture?: string;
-  company?: string;
+  customerOf?: Types.ObjectId;
   jobTitle?: string;
   website?: string;
   note?: string;

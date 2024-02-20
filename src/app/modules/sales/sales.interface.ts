@@ -1,8 +1,8 @@
 import { Types } from "mongoose";
 
 export type TSales = {
-    seller: Types.ObjectId;
-    buyer: string;
+    salesPerson: Types.ObjectId;
+    buyer: Types.ObjectId;
     quantity: number;
     dateOfSale: Date;
     product: Types.ObjectId;

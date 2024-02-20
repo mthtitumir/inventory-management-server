@@ -4,7 +4,7 @@ import { Model } from "mongoose";
 export type TCompanyAddress = {
   country: string;
   provinceOrState: string;
-  address: string;
+  detailedAddress: string;
   ZIP: string;
 }
 

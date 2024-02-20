@@ -4,7 +4,7 @@ import { CompanyModel, TCompany, TCompanyAddress } from './company.interface';
 const companyAddressSchema = new Schema<TCompanyAddress>({
   country: { type: String, required: true },
   provinceOrState: { type: String, required: true },
-  address: { type: String, required: true },
+  detailedAddress: { type: String, required: true },
   ZIP: { type: String, required: true },
 });
 

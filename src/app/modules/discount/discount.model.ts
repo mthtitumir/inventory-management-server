@@ -1,9 +1,13 @@
-import { Schema, model } from "mongoose"
-import { TDiscount } from "./discount.interface"
+import { Schema, model } from 'mongoose';
+import { TDiscount } from './discount.interface';
 
 const discountSchema = new Schema<TDiscount>(
   {
-    code: {type: String, required: true},
+    code: {
+      type: String,
+      required: true,
+      unique: true,
+    },
     type: {
       type: String,
       enum: ['amountOff', 'percentOff'],
@@ -17,8 +21,8 @@ const discountSchema = new Schema<TDiscount>(
       type: Date,
       required: true,
     },
-    startTime: { type: String, default: "00:00" },
-    endTime: { type: String, default: "23:59" },
+    startTime: { type: String, default: '00:00' },
+    endTime: { type: String, default: '23:59' },
     percentOff: {
       type: Number,
       default: 0,
@@ -40,11 +44,11 @@ const discountSchema = new Schema<TDiscount>(
       default: true,
     },
     limitPerCustomer: {
-        type: Number,
-        default: 1,
-    }
+      type: Number,
+      default: 1,
+    },
   },
-  { timestamps: true }
-)
+  { timestamps: true },
+);
 
-export const Discount = model("Discount", discountSchema);
+export const Discount = model('Discount', discountSchema);

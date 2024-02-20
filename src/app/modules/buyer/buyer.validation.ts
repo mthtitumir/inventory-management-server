@@ -14,6 +14,7 @@ const CreateBuyerValidationSchema = z.object({
   state: z.string().optional(),
   postalCode: z.string().optional(),
   country: z.string().optional(),
+  discountUsed: z.array(z.string()).optional()
 });
 
 const UpdateBuyerValidationSchema = z.object({
@@ -30,6 +31,7 @@ const UpdateBuyerValidationSchema = z.object({
   state: z.string().optional(),
   postalCode: z.string().optional(),
   country: z.string().optional(),
+  discountUsed: z.array(z.string()).optional()
 });
 
 export const BuyerValidation = {

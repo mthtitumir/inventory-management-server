@@ -4,10 +4,15 @@ import { AuthRoutes } from '../modules/auth/auth.route';
 import { FlowerRoutes } from '../modules/flower/flower.route';
 import { SalesRoutes } from '../modules/sales/sales.route';
 import { DiscountRoutes } from '../modules/discount/discount.route';
+import { CompanyRoutes } from '../modules/company/company.route';
 
 const router = Router();
 
 const moduleRoutes = [
+  {
+    path: '/companies',
+    route: CompanyRoutes,
+  },
   {
     path: '/users',
     route: UserRoutes,

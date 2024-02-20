@@ -7,7 +7,7 @@ const createSalesSchema = z.object({
     quantity: z.number(),
     dateOfSale: z.string().datetime(),
     product: z.string(),
-    discountCode: z.string().optional(),
+    discount: z.string().optional(),
   }),
 });
 

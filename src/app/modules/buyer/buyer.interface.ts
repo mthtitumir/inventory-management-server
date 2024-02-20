@@ -15,6 +15,7 @@ export type TBuyer = {
   state?: string;
   postalCode?: string;
   country?: string;
+  discountUsed?: string[];
 };
 
 export interface BuyerModel extends Model<TBuyer> {

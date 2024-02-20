@@ -24,6 +24,10 @@ const userSchema = new Schema<TUser, UserModel>(
     },
     profilePicture: {
       type: String,
+    },
+    company: { 
+      type: Schema.Types.ObjectId, 
+      ref: 'Company' 
     }
   },
   {

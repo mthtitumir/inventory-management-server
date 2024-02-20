@@ -11,9 +11,9 @@ const getAllDiscountFromDB = async () => {
   return result;
 };
 
-const getSingleDiscountFromDB = async (discountId: string) => {
+const getSingleDiscountFromDB = async (discountCode: string) => {
   // check if the discount is available or not yet
-  const result = await Discount.findById(discountId);
+  const result = await Discount.findOne({code: discountCode});
   return result;
 };
 

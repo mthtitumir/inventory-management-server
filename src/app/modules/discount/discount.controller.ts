@@ -26,7 +26,7 @@ const getAllDiscount = catchAsync(async (req, res) => {
 });
 
 const getSingleDiscount = catchAsync(async (req, res) => {
-  const result = await DiscountServices.getSingleDiscountFromDB(req?.params?.discountId);
+  const result = await DiscountServices.getSingleDiscountFromDB(req?.params?.discountCode);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,

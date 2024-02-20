@@ -28,7 +28,7 @@ const getAllSalesFromDB = async (query: Record<string, unknown>) => {
   if (range) {
     const startOfRange = moment()
       .startOf(range)
-      .format('YYYY-MM-DDTHH:mm:ss.SSSZ');
+      .format('YYYY-MM-DDTHH:mm:ss.SSSZ');  
     const endOfRange = moment().endOf(range).format('YYYY-MM-DDTHH:mm:ss.SSSZ');
 
     result = await Sales.find({

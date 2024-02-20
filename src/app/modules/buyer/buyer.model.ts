@@ -15,6 +15,10 @@ const buyerSchema = new Schema<TBuyer>({
   state: { type: String },
   postalCode: { type: String },
   country: { type: String },
+  discountUsed: {
+    type: [String],
+    default: [],
+  }
 });
 
 buyerSchema.statics.isBuyerExists = function (field: Record<string, unknown>): Promise<TBuyer> {

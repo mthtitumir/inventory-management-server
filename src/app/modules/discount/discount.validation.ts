@@ -16,6 +16,7 @@ const CreateDiscountValidationSchema = z.object({
     limitPerCustomer: z.number().default(1).optional(),
   }),
 });
+
 const UpdateDiscountValidationSchema = z.object({
   body: z.object({
     code: z.string().optional(),

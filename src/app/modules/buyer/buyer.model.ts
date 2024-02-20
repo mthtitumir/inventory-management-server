@@ -18,6 +18,10 @@ const buyerSchema = new Schema<TBuyer>({
   discountUsed: {
     type: [String],
     default: [],
+  },
+  coinsEarned: {
+    type: Number,
+    default: 0,
   }
 });
 

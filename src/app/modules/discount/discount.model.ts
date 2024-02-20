@@ -6,7 +6,10 @@ const discountSchema = new Schema<TDiscount>(
     code: {
       type: String,
       required: true,
-      unique: true,
+    },
+    company: { 
+      type: Schema.Types.ObjectId, 
+      ref: 'Company' 
     },
     type: {
       type: String,

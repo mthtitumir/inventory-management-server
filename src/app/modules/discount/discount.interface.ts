@@ -1,5 +1,8 @@
+import { Types } from "mongoose";
+
 export type TDiscount = {
   code: string;
+  company: Types.ObjectId;
   type: 'amountOff' | 'percentOff';
   startDate: Date;
   endDate: Date;

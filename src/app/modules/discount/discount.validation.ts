@@ -3,6 +3,7 @@ import { z } from 'zod';
 const CreateDiscountValidationSchema = z.object({
   body: z.object({
     code: z.string(),
+    company: z.string(),
     type: z.enum(['amountOff', 'percentOff']),
     startDate: z.string().datetime(),
     endDate: z.string().datetime(),

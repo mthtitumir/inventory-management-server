@@ -7,7 +7,8 @@ import {
 } from './flower.constant';
 
 const flowerSchema = new Schema<TFlower, FlowerModel>({
-  seller: {type: Schema.Types.ObjectId, ref: "User", required: [true, "Seller is required!"]},
+  company: {type: Schema.Types.ObjectId, ref: "Company", required: [true, "Company is required!"]},
+  entryBy: {type: Schema.Types.ObjectId, ref: "User", required: [true, "Entry officer is required!"]},
   name: { type: String, required: [true, "Name is required!"] },
   price: { type: Number, required: [true, "Price is required!"] },
   quantity: { type: Number, required: [true, "Quantity is required!"] },

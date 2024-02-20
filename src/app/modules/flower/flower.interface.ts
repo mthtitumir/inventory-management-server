@@ -19,7 +19,8 @@ type TFlowerCategoryType =
   | "Wholesale Mixes";
   
 export type TFlower = {
-  seller: Types.ObjectId;
+  company: Types.ObjectId;
+  entryBy: Types.ObjectId;
   name: string;
   price: number;
   quantity: number;

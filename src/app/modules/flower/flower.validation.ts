@@ -7,7 +7,8 @@ import {
 
 const createFlowerSchema = z.object({
   body: z.object({
-    seller: z.string(),
+    company: z.string(),
+    entryBy: z.string(),
     name: z.string(),
     price: z.number(),
     quantity: z.number(),

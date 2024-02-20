@@ -17,6 +17,18 @@ const createCompanyIntoDB = async (payload: TCompanyPayload) => {
   return newCompany;
 };
 
+const getMyCompanyFromDB = async (companyId: string) => {
+  const result = await Company.findById(companyId);
+  return result;
+}
+
+const updateCompanyIntoDB = async (companyId: string, payload: Partial<TCompany>) => {
+  const result = await Company.findByIdAndUpdate(companyId, payload, {new: true});
+  return result;
+}
+
 export const CompanyServices = {
   createCompanyIntoDB,
+  getMyCompanyFromDB,
+  updateCompanyIntoDB
 };

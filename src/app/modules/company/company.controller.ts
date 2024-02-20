@@ -14,6 +14,30 @@ const createCompany = catchAsync(async (req, res) => {
   });
 });
 
+const getMyCompany = catchAsync(async (req, res) => {
+  const result = await CompanyServices.getMyCompanyFromDB(req?.params?.companyId);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Your company data retrieved successfully!',
+    data: result,
+  });
+});
+
+const updateCompany = catchAsync(async (req, res) => {
+  const result = await CompanyServices.updateCompanyIntoDB(req?.params?.companyId, req?.body);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Company updated successfully!',
+    data: result,
+  });
+});
+
 export const CompanyControllers = {
   createCompany,
+  getMyCompany,
+  updateCompany
 };

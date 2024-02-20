@@ -6,8 +6,8 @@ const addNewDiscountIntoDB = async (payload: TDiscount) => {
   return result;
 };
 
-const getAllDiscountFromDB = async () => {
-  const result = await Discount.find({ valid: true });
+const getAllDiscountFromDB = async (companyId: string) => {
+  const result = await Discount.find({ company: companyId });
   return result;
 };
 

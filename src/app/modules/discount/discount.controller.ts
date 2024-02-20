@@ -15,7 +15,7 @@ const addNewDiscount = catchAsync(async (req, res) => {
 });
 
 const getAllDiscount = catchAsync(async (req, res) => {
-  const result = await DiscountServices.getAllDiscountFromDB();
+  const result = await DiscountServices.getAllDiscountFromDB(req?.params?.companyId);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,

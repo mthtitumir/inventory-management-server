@@ -9,13 +9,13 @@ const router = express.Router();
 
 router.post(
   '/',
-  auth(USER_ROLE.manager),
+  auth(USER_ROLE.manager, USER_ROLE.admin),
   validateRequest(DiscountValidation.CreateDiscountValidationSchema),
   DiscountControllers.addNewDiscount,
 );
 
 router.get(
-  '/',
+  '/:companyId',
   auth(USER_ROLE.manager, USER_ROLE.seller, USER_ROLE.admin),
   DiscountControllers.getAllDiscount,
 );

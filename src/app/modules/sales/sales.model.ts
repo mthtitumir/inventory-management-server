@@ -9,6 +9,12 @@ const salesSchema = new Schema<TSales>(
     dateOfSale: { type: Date, required: true },
     product: { type: Schema.Types.ObjectId, ref: 'Flower', required: true },
     discount: { type: Schema.Types.ObjectId, ref: 'Discount' },
+    status: {type: String, required: true},
+    subTotal: { type: Number, required: true },
+    discountAmount: { type: Number, default: 0 },
+    shippingCharge: { type: Number, required: true },
+    total: { type: Number, required: true },
+    note: {type: String, default: ""},
   },
   { timestamps: true }
 );

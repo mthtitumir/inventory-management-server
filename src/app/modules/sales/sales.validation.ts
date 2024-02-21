@@ -4,10 +4,16 @@ const createSalesSchema = z.object({
   body: z.object({
     salesPerson: z.string(),
     buyer: z.string(),
-    quantity: z.number(),
-    dateOfSale: z.string().datetime(),
+    quantity: z.number().int().positive(),
+    dateOfSale: z.date(),
     product: z.string(),
     discount: z.string().optional(),
+    status: z.string(),
+    subTotal: z.number().positive(),
+    discountAmount: z.number().default(0),
+    shippingCharge: z.number().positive(),
+    total: z.number().positive(),
+    note: z.string().optional(),
   }),
 });
 

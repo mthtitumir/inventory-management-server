@@ -12,8 +12,8 @@ const buyerSchema = new Schema<TBuyer>({
   note: { type: String },
   address: { type: String },
   city: { type: String },
-  state: { type: String },
-  postalCode: { type: String },
+  province: { type: String },
+  zip: { type: String },
   country: { type: String },
   discountUsed: {
     type: [String],

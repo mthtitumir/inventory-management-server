@@ -12,8 +12,8 @@ export type TBuyer = {
   note?: string;
   address?: string;
   city?: string;
-  state?: string;
-  postalCode?: string;
+  province?: string;
+  zip?: string;
   country?: string;
   discountUsed?: string[];
   coinsEarned?: number;

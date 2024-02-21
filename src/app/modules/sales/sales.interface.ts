@@ -7,4 +7,10 @@ export type TSales = {
     dateOfSale: Date;
     product: Types.ObjectId;
     discount?: Types.ObjectId;
+    status: string;
+    subTotal: number;
+    discountAmount?: number;
+    shippingCharge: number;
+    total: number;
+    note?: string;
 }

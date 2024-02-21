@@ -1,10 +1,11 @@
 import { Schema, model } from 'mongoose';
-import { BuyerModel, TBuyer } from './buyer.interface';
+import { TradingPartnerModel, TTradingPartner } from './tradingPartner.interface';
 
-const buyerSchema = new Schema<TBuyer>({
+const tradingPartnerSchema = new Schema<TTradingPartner>({
   name: { type: String, required: true },
   email: { type: String, required: true },
   phoneNumber: { type: String, required: true },
+  businessName: { type: String, default: "N/A" },
   profilePicture: { type: String },
   customerOf: { type: Schema.Types.ObjectId, ref: "Company", required: true },
   jobTitle: { type: String },
@@ -25,8 +26,8 @@ const buyerSchema = new Schema<TBuyer>({
   }
 });
 
-buyerSchema.statics.isBuyerExists = function (field: Record<string, unknown>): Promise<TBuyer> {
+tradingPartnerSchema.statics.isTradingPartnerExists = function (field: Record<string, unknown>): Promise<TTradingPartner> {
   return this.findOne(field);
 };
 
-export const Buyer = model<TBuyer, BuyerModel>('Buyer', buyerSchema);
+export const TradingPartner = model<TTradingPartner, TradingPartnerModel>('TradingPartner', tradingPartnerSchema);

@@ -9,7 +9,8 @@ export type TSales = {
     discount?: Types.ObjectId;
     status: string;
     subTotal: number;
-    discountAmount?: number;
+    discountUsingCode?: number;
+    discountUsingCoins?: number;
     shippingCharge: number;
     total: number;
     note?: string;

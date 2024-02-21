@@ -5,7 +5,7 @@ import { FlowerRoutes } from '../modules/flower/flower.route';
 import { SalesRoutes } from '../modules/sales/sales.route';
 import { DiscountRoutes } from '../modules/discount/discount.route';
 import { CompanyRoutes } from '../modules/company/company.route';
-import { BuyerRoutes } from '../modules/buyer/buyer.route';
+import { TradingPartnerRoutes } from '../modules/tradingPartner/tradingPartner.route';
 
 const router = Router();
 
@@ -19,8 +19,8 @@ const moduleRoutes = [
     route: UserRoutes,
   },
   {
-    path: '/buyers',
-    route: BuyerRoutes,
+    path: '/tradingPartners',
+    route: TradingPartnerRoutes,
   },
   {
     path: '/flowers',

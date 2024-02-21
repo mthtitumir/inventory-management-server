@@ -1,10 +1,11 @@
 /* eslint-disable no-unused-vars */
 import { Model, Types } from 'mongoose';
 
-export type TBuyer = {
+export type TTradingPartner = {
   name: string;
   email: string;
   phoneNumber: string;
+  businessName?: string;
   profilePicture?: string;
   customerOf?: Types.ObjectId;
   jobTitle?: string;
@@ -19,7 +20,7 @@ export type TBuyer = {
   coinsEarned?: number;
 };
 
-export interface BuyerModel extends Model<TBuyer> {
-  //instance methods for checking if the Buyer exist
-  isBuyerExists(field: Record<string, unknown>): Promise<TBuyer>;
+export interface TradingPartnerModel extends Model<TTradingPartner> {
+  //instance methods for checking if the TradingPartner exist
+  isTradingPartnerExists(field: Record<string, unknown>): Promise<TTradingPartner>;
 }

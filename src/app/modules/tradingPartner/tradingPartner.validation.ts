@@ -1,10 +1,11 @@
 import { z } from 'zod';
 
-const CreateBuyerValidationSchema = z.object({
+const CreateTradingPartnerValidationSchema = z.object({
   body: z.object({
     name: z.string(),
     email: z.string().email(),
     phoneNumber: z.string(),
+    businessName: z.string().optional(),
     profilePicture: z.string().optional(),
     customerOf: z.string().optional(),
     jobTitle: z.string().optional(),
@@ -20,7 +21,7 @@ const CreateBuyerValidationSchema = z.object({
   }),
 });
 
-const UpdateBuyerValidationSchema = z.object({
+const UpdateTradingPartnerValidationSchema = z.object({
   body: z.object({
     name: z.string().optional(),
     email: z.string().email(),
@@ -39,7 +40,7 @@ const UpdateBuyerValidationSchema = z.object({
   }),
 });
 
-export const BuyerValidation = {
-  CreateBuyerValidationSchema,
-  UpdateBuyerValidationSchema,
+export const TradingPartnerValidation = {
+  CreateTradingPartnerValidationSchema,
+  UpdateTradingPartnerValidationSchema,
 };

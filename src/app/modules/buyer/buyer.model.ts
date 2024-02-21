@@ -6,7 +6,7 @@ const buyerSchema = new Schema<TBuyer>({
   email: { type: String, required: true },
   phoneNumber: { type: String, required: true },
   profilePicture: { type: String },
-  customerOf: { type: Schema.Types.ObjectId, required: true },
+  customerOf: { type: Schema.Types.ObjectId, ref: "Company", required: true },
   jobTitle: { type: String },
   website: { type: String },
   note: { type: String },

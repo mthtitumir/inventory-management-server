@@ -1,19 +1,16 @@
 /* eslint-disable no-unused-vars */
 import { Model } from "mongoose";
 
-export type TCompanyAddress = {
-  country: string;
-  provinceOrState: string;
-  detailedAddress: string;
-  ZIP: string;
-}
-
 export type TCompany = {
   name: string;
   logo?: string;
   isVerified?: boolean;
   companyLicenseNumber: string;
-  address: TCompanyAddress;
+  address: string;
+  country: string;
+  province?: string;
+  city: string;
+  zip: string;
   phoneNo: string;
   email: string;
 };

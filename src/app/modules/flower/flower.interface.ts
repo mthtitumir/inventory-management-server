@@ -20,6 +20,7 @@ type TFlowerCategoryType =
   
 export type TFlower = {
   company: Types.ObjectId;
+  supplier: Types.ObjectId;
   entryBy: Types.ObjectId;
   name: string;
   price: number;

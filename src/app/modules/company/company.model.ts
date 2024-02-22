@@ -15,10 +15,8 @@ const companySchema = new Schema<TCompany, CompanyModel>({
   email: { type: String, required: true },
 });
 
-companySchema.statics.isUserExists = async function (
-  field: Record<string, unknown>,
-) {
-  return await Company.findOne(field);
+companySchema.statics.isCompanyExists = async function (companyId: string | Schema.Types.ObjectId) {
+  return await Company.findById(companyId);
 };
 
 export const Company = model<TCompany, CompanyModel>('Company', companySchema);

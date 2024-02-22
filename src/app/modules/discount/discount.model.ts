@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose';
-import { TDiscount } from './discount.interface';
+import { DiscountModel, TDiscount } from './discount.interface';
 
-const discountSchema = new Schema<TDiscount>(
+const discountSchema = new Schema<TDiscount, DiscountModel>(
   {
     code: {
       type: String,
@@ -9,7 +9,8 @@ const discountSchema = new Schema<TDiscount>(
     },
     company: { 
       type: Schema.Types.ObjectId, 
-      ref: 'Company' 
+      ref: 'Company',
+      required: true,
     },
     type: {
       type: String,
@@ -54,4 +55,8 @@ const discountSchema = new Schema<TDiscount>(
   { timestamps: true },
 );
 
-export const Discount = model('Discount', discountSchema);
+discountSchema.statics.isDiscountExists = async function (discountId: string | Schema.Types.ObjectId) {
+  return await Discount.findById(discountId);
+};
+
+export const Discount = model<TDiscount, DiscountModel>('Discount', discountSchema);

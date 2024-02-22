@@ -2,9 +2,12 @@ import httpStatus from 'http-status';
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import { DiscountServices } from './discount.service';
+import { CustomRequest } from '../../middlewares/auth';
 
-const addNewDiscount = catchAsync(async (req, res) => {
-  const result = await DiscountServices.addNewDiscountIntoDB(req?.body);
+const addNewDiscount = catchAsync(async (req: CustomRequest, res) => {
+  const discountData = {...req.body, company: req?.user?.company};
+  
+  const result = await DiscountServices.addNewDiscountIntoDB(discountData);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -14,8 +17,8 @@ const addNewDiscount = catchAsync(async (req, res) => {
   });
 });
 
-const getAllDiscount = catchAsync(async (req, res) => {
-  const result = await DiscountServices.getAllDiscountFromDB(req?.params?.companyId);
+const getAllDiscount = catchAsync(async (req: CustomRequest, res) => {
+  const result = await DiscountServices.getAllDiscountFromDB(req?.user?.company);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -36,11 +39,14 @@ const getSingleDiscount = catchAsync(async (req, res) => {
   });
 });
 
-const updateDiscount = catchAsync(async (req, res) => {
+const updateDiscount = catchAsync(async (req: CustomRequest, res) => {
   const discountId = req?.params?.discountId;
+  const company = req?.user?.company;
+  const updatedData = req?.body;
   const result = await DiscountServices.updateDiscountIntoDB(
+    company,
     discountId,
-    req?.body,
+    updatedData,
   );
 
   sendResponse(res, {

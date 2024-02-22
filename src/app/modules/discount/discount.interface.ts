@@ -1,4 +1,5 @@
-import { Types } from "mongoose";
+/* eslint-disable no-unused-vars */
+import { Model, Types } from "mongoose";
 
 export type TDiscount = {
   code: string;
@@ -15,3 +16,8 @@ export type TDiscount = {
   valid?: boolean;
   limitPerCustomer?: number;
 };
+
+export interface DiscountModel extends Model<TDiscount> {
+  //instance methods for checking if the Discount exist
+  isDiscountExists(discountId: string | Types.ObjectId): Promise<TDiscount>;
+}

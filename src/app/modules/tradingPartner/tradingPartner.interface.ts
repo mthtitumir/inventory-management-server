@@ -22,5 +22,5 @@ export type TTradingPartner = {
 
 export interface TradingPartnerModel extends Model<TTradingPartner> {
   //instance methods for checking if the TradingPartner exist
-  isTradingPartnerExists(field: Record<string, unknown>): Promise<TTradingPartner>;
+  isTradingPartnerExists(tradingPartnerId: string | Types.ObjectId): Promise<TTradingPartner>;
 }

@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+import { Types } from "mongoose";
 import { Model } from "mongoose";
 
 export type TCompany = {
@@ -17,5 +18,5 @@ export type TCompany = {
 
 export interface CompanyModel extends Model<TCompany> {
   //instance methods for checking if the Company exist
-  isCompanyExists(field: Record<string, unknown>): Promise<TCompany>;
+  isCompanyExists(companyId: string | Types.ObjectId): Promise<TCompany>;
 }

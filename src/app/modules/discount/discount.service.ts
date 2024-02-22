@@ -18,6 +18,7 @@ const getSingleDiscountFromDB = async (discountCode: string) => {
 };
 
 const updateDiscountIntoDB = async (
+  companyId: string,
   discountId: string,
   payload: Partial<TDiscount>,
 ) => {

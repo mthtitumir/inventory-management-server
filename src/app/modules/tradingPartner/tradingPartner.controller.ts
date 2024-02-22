@@ -17,11 +17,10 @@ const addNewTradingPartner = catchAsync(async (req, res) => {
   });
 });
 
-const getAllTradingPartner = catchAsync(async (req, res) => {
+const getAllTradingPartner = catchAsync(async (req: CustomRequest, res) => {
   // filter/query must be refactored
-  const result = await TradingPartnerServices.getAllTradingPartnerFromDB({
-    ...req?.query,
-  });
+  const companyId = req?.user?.company;
+  const result = await TradingPartnerServices.getAllTradingPartnerFromDB(companyId, req?.query);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -78,7 +77,7 @@ const updateDiscountCoinsUsed = catchAsync(async (req: CustomRequest, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Used discount/coins updated successfully!',
+    message: "Used discount, coins updated successfully!",
     data: result,
   });
 });

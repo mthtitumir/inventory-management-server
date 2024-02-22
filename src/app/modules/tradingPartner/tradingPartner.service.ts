@@ -4,14 +4,46 @@ import { Company } from '../company/company.model';
 import { TTradingPartner } from './tradingPartner.interface';
 import { TradingPartner } from './tradingPartner.model';
 import { Discount } from '../discount/discount.model';
+import { searchableFields } from './tradingPartner.constant';
 
 const addNewTradingPartnerIntoDB = async (payload: TTradingPartner) => {
   const result = await TradingPartner.create(payload);
   return result;
 };
 
-const getAllTradingPartnerFromDB = async (query: Record<string, unknown>) => {
-  const result = await TradingPartner.find(query);
+const getAllTradingPartnerFromDB = async (
+  companyId: string,
+  query: Record<string, unknown>,
+) => {
+  const {
+    searchTerm = '',
+    page = 1,
+    limit = 20,
+    sortBy,
+    sortOrder = 'asc',
+  } = query;
+  const filter: Record<string, unknown> = { partnerOf: companyId };
+  if (query.type) {
+    filter.type = query.type;
+  }
+  if (query.city) {
+    filter.city = query.city;
+  }
+  if (query.country) {
+    filter.country = query.country;
+  }
+  const skip = (Number(page) - 1) * Number(limit);
+
+  const searchQuery = TradingPartner.find({
+    $or: searchableFields.map((field) => ({
+      [field]: { $regex: searchTerm, $options: 'i' },
+    })),
+  });
+  const result = await searchQuery
+    .find(filter)
+    .sort({ [sortBy as string]: sortOrder === 'asc' ? 1 : -1 })
+    .skip(skip)
+    .limit(parseInt(limit as string));
   return result;
 };
 
@@ -104,7 +136,10 @@ const updateDiscountCoinsUsedIntoDB = async (
         throw new AppError(httpStatus.NOT_FOUND, 'Discount not found!');
       }
       if (discountCountTimes >= (discountData.limitPerCustomer as number)) {
-        throw new AppError(httpStatus.NOT_IMPLEMENTED, 'Discount limit exceeded!');
+        throw new AppError(
+          httpStatus.NOT_IMPLEMENTED,
+          'Discount limit exceeded!',
+        );
       }
       const result = await TradingPartner.findByIdAndUpdate(
         tradingPartnerId,
@@ -126,7 +161,7 @@ const updateDiscountCoinsUsedIntoDB = async (
         tradingPartnerId,
         {
           $push: { discountUsed: discountId },
-          $set: { coinsEarned: (partnerData?.coinsEarned as number) - coins },
+          $set: { coinsEarned: (partnerData?.coinsEarned as number) - (coins as number) },
         },
         { new: true },
       );

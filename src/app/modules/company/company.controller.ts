@@ -16,7 +16,6 @@ const createCompany = catchAsync(async (req, res) => {
 });
 
 const getMyCompany = catchAsync(async (req: CustomRequest, res) => {
-  // const req = CustomReq as CustomRequest;
   const result = await CompanyServices.getMyCompanyFromDB(req?.user?.company);
 
   sendResponse(res, {

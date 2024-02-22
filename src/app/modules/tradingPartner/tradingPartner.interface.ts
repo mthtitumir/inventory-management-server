@@ -8,7 +8,7 @@ export type TTradingPartner = {
   type: "buyer" | "supplier";
   businessName?: string;
   profilePicture?: string;
-  customerOf?: Types.ObjectId;
+  partnerOf?: Types.ObjectId;
   jobTitle?: string;
   website?: string;
   note?: string;

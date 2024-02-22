@@ -28,7 +28,7 @@ router.get(
 
 router.patch(
   '/:tradingPartnerId',
-  auth(USER_ROLE.manager),
+  auth(USER_ROLE.manager, USER_ROLE.admin),
   validateRequest(TradingPartnerValidation.UpdateTradingPartnerValidationSchema),
   TradingPartnerControllers.updateTradingPartner,
 );

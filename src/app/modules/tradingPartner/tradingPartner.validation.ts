@@ -8,7 +8,7 @@ const CreateTradingPartnerValidationSchema = z.object({
     type: z.enum(["buyer", "supplier"]),
     businessName: z.string().optional(),
     profilePicture: z.string().optional(),
-    customerOf: z.string().optional(),
+    partnerOf: z.string().optional(),
     jobTitle: z.string().optional(),
     website: z.string().optional(),
     note: z.string().optional(),
@@ -25,8 +25,8 @@ const CreateTradingPartnerValidationSchema = z.object({
 const UpdateTradingPartnerValidationSchema = z.object({
   body: z.object({
     name: z.string().optional(),
-    email: z.string().email(),
-    phoneNumber: z.string(),
+    email: z.string().email().optional(),
+    phoneNumber: z.string().optional(),
     type: z.enum(["buyer", "supplier"]).optional(),
     profilePicture: z.string().optional(),
     jobTitle: z.string().optional(),

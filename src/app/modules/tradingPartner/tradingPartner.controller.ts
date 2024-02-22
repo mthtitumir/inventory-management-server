@@ -2,6 +2,7 @@ import httpStatus from 'http-status';
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import { TradingPartnerServices } from './tradingPartner.service';
+import { CustomRequest } from '../../middlewares/auth';
 
 const addNewTradingPartner = catchAsync(async (req, res) => {
   const result = await TradingPartnerServices.addNewTradingPartnerIntoDB(req?.body);
@@ -9,7 +10,7 @@ const addNewTradingPartner = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'TradingPartner added successfully!',
+    message: 'Trading Partner added successfully!',
     data: result,
   });
 });
@@ -21,33 +22,38 @@ const getAllTradingPartner = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'All TradingPartners retrieved successfully!',
+    message: 'All Trading Partners retrieved successfully!',
     data: result,
   });
 });
 
-const getSingleTradingPartner = catchAsync(async (req, res) => {
-  const result = await TradingPartnerServices.getSingleTradingPartnerFromDB(req?.params?.TradingPartnerId);
+const getSingleTradingPartner = catchAsync(async (req: CustomRequest, res) => {
+  const companyId = req?.user?.company;
+  const tradingPartnerId = req?.params?.tradingPartnerId;
+  const result = await TradingPartnerServices.getSingleTradingPartnerFromDB(companyId, tradingPartnerId);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'TradingPartner retrieved successfully!',
+    message: 'Trading Partner retrieved successfully!',
     data: result,
   });
 });
 
-const updateTradingPartner = catchAsync(async (req, res) => {
-  const TradingPartnerId = req?.params?.TradingPartnerId;
+const updateTradingPartner = catchAsync(async (req: CustomRequest, res) => {
+  const companyId = req?.user?.company;
+  const tradingPartnerId = req?.params?.tradingPartnerId;
+  const updatedPartnerData = req?.body;
   const result = await TradingPartnerServices.updateTradingPartnerIntoDB(
-    TradingPartnerId,
-    req?.body,
+    companyId,
+    tradingPartnerId,
+    updatedPartnerData,
   );
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'TradingPartner updated successfully!',
+    message: 'Trading Partner updated successfully!',
     data: result,
   });
 });

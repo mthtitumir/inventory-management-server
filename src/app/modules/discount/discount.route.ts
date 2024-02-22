@@ -21,7 +21,7 @@ router.get(
 );
 
 router.get(
-  '/:discountCode',
+  '/:discountId',
   auth(USER_ROLE.manager, USER_ROLE.seller, USER_ROLE.admin),
   DiscountControllers.getSingleDiscount,
 );

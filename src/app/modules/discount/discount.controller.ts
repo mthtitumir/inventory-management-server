@@ -28,8 +28,10 @@ const getAllDiscount = catchAsync(async (req: CustomRequest, res) => {
   });
 });
 
-const getSingleDiscount = catchAsync(async (req, res) => {
-  const result = await DiscountServices.getSingleDiscountFromDB(req?.params?.discountCode);
+const getSingleDiscount = catchAsync(async (req: CustomRequest, res) => {
+  const discountId = req?.params?.discountId;
+  const companyId = req?.user?.company;
+  const result = await DiscountServices.getSingleDiscountFromDB(companyId, discountId);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,

@@ -5,7 +5,9 @@ import { TradingPartnerServices } from './tradingPartner.service';
 import { CustomRequest } from '../../middlewares/auth';
 
 const addNewTradingPartner = catchAsync(async (req, res) => {
-  const result = await TradingPartnerServices.addNewTradingPartnerIntoDB(req?.body);
+  const result = await TradingPartnerServices.addNewTradingPartnerIntoDB(
+    req?.body,
+  );
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -16,8 +18,10 @@ const addNewTradingPartner = catchAsync(async (req, res) => {
 });
 
 const getAllTradingPartner = catchAsync(async (req, res) => {
-    // filter/query must be refactored
-  const result = await TradingPartnerServices.getAllTradingPartnerFromDB({...req?.query});
+  // filter/query must be refactored
+  const result = await TradingPartnerServices.getAllTradingPartnerFromDB({
+    ...req?.query,
+  });
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -30,7 +34,10 @@ const getAllTradingPartner = catchAsync(async (req, res) => {
 const getSingleTradingPartner = catchAsync(async (req: CustomRequest, res) => {
   const companyId = req?.user?.company;
   const tradingPartnerId = req?.params?.tradingPartnerId;
-  const result = await TradingPartnerServices.getSingleTradingPartnerFromDB(companyId, tradingPartnerId);
+  const result = await TradingPartnerServices.getSingleTradingPartnerFromDB(
+    companyId,
+    tradingPartnerId,
+  );
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -58,9 +65,28 @@ const updateTradingPartner = catchAsync(async (req: CustomRequest, res) => {
   });
 });
 
+const updateDiscountCoinsUsed = catchAsync(async (req: CustomRequest, res) => {
+  const companyId = req?.user?.company;
+  const tradingPartnerId = req?.params?.tradingPartnerId;
+  const updatedDiscountData = req?.body;
+  const result = await TradingPartnerServices.updateDiscountCoinsUsedIntoDB(
+    companyId,
+    tradingPartnerId,
+    updatedDiscountData,
+  );
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Used discount/coins updated successfully!',
+    data: result,
+  });
+});
+
 export const TradingPartnerControllers = {
   addNewTradingPartner,
   getAllTradingPartner,
   getSingleTradingPartner,
   updateTradingPartner,
+  updateDiscountCoinsUsed
 };

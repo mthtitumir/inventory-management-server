@@ -37,12 +37,18 @@ const UpdateTradingPartnerValidationSchema = z.object({
     province: z.string().optional(),
     zip: z.string().optional(),
     country: z.string().optional(),
-    discountUsed: z.array(z.string()).optional(),
-    coinsEarned: z.number().optional(),
+  }),
+});
+
+const UpdateTradingPartnerDiscountValidationSchema = z.object({
+  body: z.object({
+    discountId: z.string().optional(),
+    coins: z.number().optional(),
   }),
 });
 
 export const TradingPartnerValidation = {
   CreateTradingPartnerValidationSchema,
   UpdateTradingPartnerValidationSchema,
+  UpdateTradingPartnerDiscountValidationSchema
 };

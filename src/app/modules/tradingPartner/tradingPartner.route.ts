@@ -28,9 +28,16 @@ router.get(
 
 router.patch(
   '/:tradingPartnerId',
-  auth(USER_ROLE.manager, USER_ROLE.admin),
+  auth(USER_ROLE.manager, USER_ROLE.seller, USER_ROLE.admin),
   validateRequest(TradingPartnerValidation.UpdateTradingPartnerValidationSchema),
   TradingPartnerControllers.updateTradingPartner,
+);
+
+router.patch(
+  '/discounts-coins-used/:tradingPartnerId',
+  auth(USER_ROLE.manager, USER_ROLE.seller, USER_ROLE.admin),
+  validateRequest(TradingPartnerValidation.UpdateTradingPartnerDiscountValidationSchema),
+  TradingPartnerControllers.updateDiscountCoinsUsed,
 );
 
 export const TradingPartnerRoutes = router;

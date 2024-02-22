@@ -28,7 +28,7 @@ router.get(
 
 router.patch(
   '/:discountId',
-  auth(USER_ROLE.manager),
+  auth(USER_ROLE.admin, USER_ROLE.manager),
   validateRequest(DiscountValidation.UpdateDiscountValidationSchema),
   DiscountControllers.updateDiscount,
 );

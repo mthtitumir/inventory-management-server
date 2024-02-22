@@ -35,11 +35,18 @@ const updateDiscountIntoDB = async (
   discountId: string,
   payload: Partial<TDiscount>,
 ) => {
-  // check if the discount is available or not yet
-  const result = await Discount.findByIdAndUpdate(discountId, payload, {
-    new: true,
-  });
-  return result;
+  const companyData = await Company.isCompanyExists(companyId);
+  const discountData = await Discount.isDiscountExists(discountId);
+  if (!companyData) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Unauthorized staff!');
+  } else if (!discountData) {
+    throw new AppError(httpStatus.NOT_FOUND, "This discount doesn't exist!");
+  } else {
+    const result = await Discount.findByIdAndUpdate(discountId, payload, {
+      new: true,
+    });
+    return result;
+  }
 };
 
 export const DiscountServices = {

@@ -2,6 +2,7 @@ import httpStatus from 'http-status';
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import { CompanyServices } from './company.service';
+import { CustomRequest } from '../../middlewares/auth';
 
 const createCompany = catchAsync(async (req, res) => {
   const result = await CompanyServices.createCompanyIntoDB(req?.body);
@@ -14,8 +15,9 @@ const createCompany = catchAsync(async (req, res) => {
   });
 });
 
-const getMyCompany = catchAsync(async (req, res) => {
-  const result = await CompanyServices.getMyCompanyFromDB(req?.params?.companyId);
+const getMyCompany = catchAsync(async (req: CustomRequest, res) => {
+  // const req = CustomReq as CustomRequest;
+  const result = await CompanyServices.getMyCompanyFromDB(req?.user?.company);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -25,8 +27,8 @@ const getMyCompany = catchAsync(async (req, res) => {
   });
 });
 
-const updateCompany = catchAsync(async (req, res) => {
-  const result = await CompanyServices.updateCompanyIntoDB(req?.params?.companyId, req?.body);
+const updateCompany = catchAsync(async (req: CustomRequest, res) => {
+  const result = await CompanyServices.updateCompanyIntoDB(req?.user?.company, req?.body);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,

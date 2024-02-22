@@ -7,8 +7,12 @@ import { TUserRole } from '../modules/user/user.interface';
 import { User } from '../modules/user/user.model';
 import catchAsync from '../utils/catchAsync';
 
+export interface CustomRequest extends Request {
+  user?: JwtPayload & { role: string };
+}
+
 const auth = (...requiredRoles: TUserRole[]) => {
-  return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+  return catchAsync(async (req: CustomRequest, res: Response, next: NextFunction) => {
     const token = req.headers.authorization;
 
     // checking if the token is missing
@@ -67,7 +71,7 @@ const auth = (...requiredRoles: TUserRole[]) => {
         'You are not authorized  hi!',
       );
     }
-
+    
     req.user = decoded as JwtPayload & { role: string };
     next();
   });

@@ -14,13 +14,13 @@ router.post(
 );
 
 router.get(
-  '/:companyId',
+  '/',
   auth(USER_ROLE.admin, USER_ROLE.manager, USER_ROLE.seller),
   CompanyControllers.getMyCompany,
 );
 
 router.patch(
-  '/:companyId',
+  '/',
   auth(USER_ROLE.admin, USER_ROLE.manager),
   validateRequest(CompanyValidations.UpdateCompanyValidationSchema),
   CompanyControllers.updateCompany,

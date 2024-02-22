@@ -8,6 +8,7 @@ const tradingPartnerSchema = new Schema<TTradingPartner>({
   name: { type: String, required: true },
   email: { type: String, required: true },
   phoneNumber: { type: String, required: true },
+  type: { type: String, enum: ["buyer", "supplier"], required: [true, "Trading partner type is required!"] },
   businessName: { type: String, default: 'N/A' },
   profilePicture: { type: String },
   customerOf: { type: Schema.Types.ObjectId, ref: 'Company', required: true },

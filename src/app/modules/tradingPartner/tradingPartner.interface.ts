@@ -5,6 +5,7 @@ export type TTradingPartner = {
   name: string;
   email: string;
   phoneNumber: string;
+  type: "buyer" | "supplier";
   businessName?: string;
   profilePicture?: string;
   customerOf?: Types.ObjectId;

@@ -46,6 +46,9 @@ const auth = (...requiredRoles: TUserRole[]) => {
     if (!companyData) {
       throw new AppError(httpStatus.NOT_FOUND, 'This company is not found !');
     }
+    if(user.company !== company){
+      throw new AppError(httpStatus.NOT_FOUND, "This user doesn't belong to this company !");
+    }
     // checking if the user is already deleted
 
     // const isDeleted = user?.isDeleted;

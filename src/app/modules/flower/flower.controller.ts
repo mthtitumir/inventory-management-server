@@ -29,10 +29,11 @@ const deleteFlower = catchAsync(async (req: CustomRequest, res) => {
   });
 });
 
-const updateFlower = catchAsync(async (req, res) => {
+const updateFlower = catchAsync(async (req: CustomRequest, res) => {
   const flowerId = req?.params?.flowerId;
-  
-  const result = await FlowerService.updateFlowerInDB(flowerId, req?.body);
+  const companyId = req?.user?.company;
+  const payload = req?.body;
+  const result = await FlowerService.updateFlowerInDB(flowerId, companyId, payload);
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
@@ -41,9 +42,11 @@ const updateFlower = catchAsync(async (req, res) => {
   });
 });
 
-const getSingleFlower = catchAsync(async (req, res) => {
+const getSingleFlower = catchAsync(async (req: CustomRequest, res) => {
+  const flowerId = req?.params?.flowerId;
+  const companyId = req?.user?.company;
   const result = await FlowerService.getSingleFlowerFromDB(
-    req?.params?.flowerId,
+    flowerId, companyId
   );
   sendResponse(res, {
     success: true,

@@ -24,7 +24,7 @@ const deleteFlowerFromDB = async (
     throw new AppError(httpStatus.NOT_FOUND, 'Flower does not exist!');
   }
   // check if the flower belongs to this company
-  if (flowerData.company !== companyId) {
+  if (flowerData.company != companyId) {
     throw new AppError(
       httpStatus.NOT_FOUND,
       'This flower does not exist in this company!',
@@ -36,22 +36,35 @@ const deleteFlowerFromDB = async (
 
 const updateFlowerInDB = async (
   flowerId: string,
-  payload: Partial<TFlower>,
+  companyId: Types.ObjectId,
+  flowerNewData: Partial<TFlower>,
 ) => {
   const flowerData = await Flower.isFlowerExists(flowerId);
   if (!flowerData) {
     throw new AppError(httpStatus.NOT_FOUND, 'Flower does not exist!');
   }
-  const result = await Flower.findByIdAndUpdate(flowerId, payload, {
+  if (flowerData.company != companyId) {
+    throw new AppError(
+      httpStatus.NOT_FOUND,
+      'This flower does not exist in this company!',
+    );
+  }
+  const result = await Flower.findByIdAndUpdate(flowerId, flowerNewData, {
     new: true,
   });
   return result;
 };
 
-const getSingleFlowerFromDB = async (flowerId: string) => {
+const getSingleFlowerFromDB = async (flowerId: string, companyId: Types.ObjectId) => {
   const flowerData = await Flower.isFlowerExists(flowerId);
   if (!flowerData) {
     throw new AppError(httpStatus.NOT_FOUND, 'Flower does not exist!');
+  }
+  if (flowerData.company != companyId) {
+    throw new AppError(
+      httpStatus.NOT_FOUND,
+      'This flower does not exist in this company!',
+    );
   }
   return flowerData;
 };

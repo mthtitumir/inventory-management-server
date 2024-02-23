@@ -37,11 +37,13 @@ router.patch(
 
 router.get(
   '/:flowerId',
+  auth(USER_ROLE.admin, USER_ROLE.manager, USER_ROLE.seller),
   FlowerController.getSingleFlower,
 );
 
 router.get(
   '/',
+  auth(USER_ROLE.admin, USER_ROLE.manager, USER_ROLE.seller),
   FlowerController.getAllFlower,
 );
 

@@ -2,10 +2,9 @@ import { z } from 'zod';
 
 const createSalesSchema = z.object({
   body: z.object({
-    salesPerson: z.string(),
     buyer: z.string(),
     quantity: z.number().int().positive(),
-    dateOfSale: z.date(),
+    dateOfSale: z.string().datetime(),
     product: z.string(),
     discount: z.string().optional(),
     status: z.string().optional(),

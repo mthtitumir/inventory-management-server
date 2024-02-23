@@ -2,9 +2,13 @@ import httpStatus from 'http-status';
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import { SalesService } from './sales.service';
+import { CustomRequest } from '../../middlewares/auth';
 
-const addNewSales = catchAsync(async (req, res) => {
-  const result = await SalesService.addNewSalesIntoDB(req?.body);
+const addNewSales = catchAsync(async (req: CustomRequest, res) => {
+  const salesPersonId = req?.user?._id;
+  const companyId = req?.user?.company;
+  const payload = req?.body;
+  const result = await SalesService.addNewSalesIntoDB(salesPersonId, companyId, payload);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -15,7 +19,7 @@ const addNewSales = catchAsync(async (req, res) => {
 });
 
 const getAllSales = catchAsync(async (req, res) => {
-  const result = await SalesService.getAllSalesFromDB(req.query);
+  const result = await SalesService.getAllSalesFromDB2(req.query);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,

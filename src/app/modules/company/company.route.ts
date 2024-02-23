@@ -7,6 +7,12 @@ import { USER_ROLE } from '../user/user.constant';
 
 const router = express.Router();
 
+/**
+ * 1. Register company ---> POST /companies;
+ * 2. Get my company ---> GET /companies;
+ * 3. Update my company ---> PATCH /companies;
+ */
+
 router.post(
   '/',
   validateRequest(CompanyValidations.CreateCompanyValidationSchema),

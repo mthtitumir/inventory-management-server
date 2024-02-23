@@ -5,6 +5,10 @@ import { UserValidation } from './user.validation';
 
 const router = express.Router();
 
+/**
+ * 1. Add a User ---> POST /users;
+ */
+
 router.post(
   '/',
   validateRequest(UserValidation.createUserValidationSchema),

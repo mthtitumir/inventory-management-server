@@ -7,6 +7,13 @@ import { USER_ROLE } from '../user/user.constant';
 
 const router = express.Router();
 
+/**
+ * 1. Add a discount ---> POST /discounts;
+ * 2. Get all discounts ---> GET /discounts;
+ * 3. Get single discounts ---> GET /discounts/:discountId;
+ * 4. Update discount ---> PATCH /discounts/:discountId;
+ */
+
 router.post(
   '/',
   auth(USER_ROLE.manager, USER_ROLE.admin),

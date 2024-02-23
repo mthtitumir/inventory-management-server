@@ -7,6 +7,14 @@ import validateRequest from '../../middlewares/validateRequest';
 
 const router = express.Router();
 
+/**
+ * 1. Add new partner ---> POST /trading-partners;
+ * 2. Get all partners ---> GET /trading-partners;
+ * 3. Get single partner ---> GET /trading-partners/:tradingPartnerId;
+ * 4. Update a partner ---> PATCH /trading-partners/:tradingPartnerId;
+ * 5. Update a partner's discount/coins ---> PATCH /trading-partners/discounts-coins-used/:tradingPartnerId;
+ */
+
 router.post(
   '/',
   auth(USER_ROLE.manager, USER_ROLE.admin, USER_ROLE.seller),

@@ -19,7 +19,7 @@ const moduleRoutes = [
     route: UserRoutes,
   },
   {
-    path: '/tradingPartners',
+    path: '/trading-partners',
     route: TradingPartnerRoutes,
   },
   {

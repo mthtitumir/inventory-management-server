@@ -7,12 +7,12 @@ import { USER_ROLE } from "../user/user.constant";
 const router = express.Router();
 
 /**
- * 1. Add a flower;
- * 2. Delete a flower;
- * 3. Update a flower;
- * 4. Get a single flower;
- * 5. Get all flowers depending on filter and searching and sorting query;
- * 6. Bulk delete flowers;
+ * 1. Add a flower ---> POST /flowers;
+ * 2. Delete a flower ---> DELETE /flowers/:flowerId;
+ * 3. Update a flower ---> PATCH /flowers/:flowerId;
+ * 4. Get a single flower ---> GET /flowers/:flowerId;
+ * 5. Get all flowers depending on filter and searching and sorting query ---> GET /flowers;
+ * 6. Bulk delete flowers ---> DELETE /flowers;
  */
 
 router.post(

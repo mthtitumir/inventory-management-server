@@ -3,6 +3,10 @@ import { AuthController } from './auth.controller';
 
 const router = express.Router();
 
+/**
+ * 1. Login user ---> POST /users;
+ */
+
 router.post(
   '/login',
   // validateRequest(AuthValidation.loginValidationSchema),
@@ -10,4 +14,3 @@ router.post(
 );
 
 export const AuthRoutes = router;
-

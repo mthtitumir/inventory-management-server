@@ -2,22 +2,35 @@ import httpStatus from 'http-status';
 import AppError from '../../errors/AppError';
 import { TFlower } from './flower.interface';
 import { Flower } from './flower.model';
+import { Types } from 'mongoose';
 
-const addFlowerIntoDB = async (entryBy: string, companyId: string, payload: TFlower) => {
-  const flowerData = {...payload, entryBy, company: companyId};
+const addFlowerIntoDB = async (
+  entryBy: string,
+  companyId: string,
+  payload: TFlower,
+) => {
+  const flowerData = { ...payload, entryBy, company: companyId };
   const result = await Flower.create(flowerData);
   return result;
 };
 
-const deleteFlowerFromDB = async (flowerId: string) => {
+const deleteFlowerFromDB = async (
+  flowerId: string,
+  companyId: Types.ObjectId,
+) => {
   // check if the flower exists or not
   const flowerData = await Flower.isFlowerExists(flowerId);
   if (!flowerData) {
     throw new AppError(httpStatus.NOT_FOUND, 'Flower does not exist!');
   }
-
-  //   check if the owner (who added the flower) is deleting it or anyone else
-  const result = await Flower.deleteOne({ _id: flowerId });
+  // check if the flower belongs to this company
+  if (flowerData.company !== companyId) {
+    throw new AppError(
+      httpStatus.NOT_FOUND,
+      'This flower does not exist in this company!',
+    );
+  }
+  const result = await Flower.findByIdAndDelete(flowerId);
   return result;
 };
 
@@ -62,7 +75,10 @@ const getAllFlowerFromDB = async (query: Record<string, unknown>) => {
     filter.size = query.size;
   }
   if (query.minPrice || query.maxPrice) {
-    filter.price = { $gte: parseInt(query.minPrice as string), $lte: parseInt(query.maxPrice as string) }
+    filter.price = {
+      $gte: parseInt(query.minPrice as string),
+      $lte: parseInt(query.maxPrice as string),
+    };
   }
   const skip = (Number(page) - 1) * Number(limit);
   const flowerSearchableFields = [

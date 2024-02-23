@@ -17,10 +17,10 @@ const addFlower = catchAsync(async (req: CustomRequest, res) => {
   });
 });
 
-const deleteFlower = catchAsync(async (req, res) => {
-  
+const deleteFlower = catchAsync(async (req: CustomRequest, res) => {
+  const companyId = req?.user?.company;
   const flowerId = req?.params?.flowerId;
-  const result = await FlowerService.deleteFlowerFromDB(flowerId);
+  const result = await FlowerService.deleteFlowerFromDB(flowerId, companyId);
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,

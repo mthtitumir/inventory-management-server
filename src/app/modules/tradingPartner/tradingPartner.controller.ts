@@ -18,7 +18,6 @@ const addNewTradingPartner = catchAsync(async (req, res) => {
 });
 
 const getAllTradingPartner = catchAsync(async (req: CustomRequest, res) => {
-  // filter/query must be refactored
   const companyId = req?.user?.company;
   const result = await TradingPartnerServices.getAllTradingPartnerFromDB(companyId, req?.query);
 

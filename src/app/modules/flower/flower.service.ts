@@ -3,8 +3,9 @@ import AppError from '../../errors/AppError';
 import { TFlower } from './flower.interface';
 import { Flower } from './flower.model';
 
-const addFlowerIntoDB = async (payload: TFlower) => {
-  const result = await Flower.create(payload);
+const addFlowerIntoDB = async (entryBy: string, companyId: string, payload: TFlower) => {
+  const flowerData = {...payload, entryBy, company: companyId};
+  const result = await Flower.create(flowerData);
   return result;
 };
 

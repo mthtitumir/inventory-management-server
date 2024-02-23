@@ -2,9 +2,13 @@ import httpStatus from 'http-status';
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import { FlowerService } from './flower.service';
+import { CustomRequest } from '../../middlewares/auth';
 
-const addFlower = catchAsync(async (req, res) => {  
-  const result = await FlowerService.addFlowerIntoDB(req.body);
+const addFlower = catchAsync(async (req: CustomRequest, res) => { 
+  const entryBy = req?.user?._id;
+  const companyId = req?.user?.company; 
+  const payload = req?.body;
+  const result = await FlowerService.addFlowerIntoDB(entryBy, companyId, payload);
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,

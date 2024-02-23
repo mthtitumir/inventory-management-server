@@ -6,6 +6,7 @@ import AppError from '../errors/AppError';
 import { TUserRole } from '../modules/user/user.interface';
 import { User } from '../modules/user/user.model';
 import catchAsync from '../utils/catchAsync';
+import { Company } from '../modules/company/company.model';
 
 export interface CustomRequest extends Request {
   user?: JwtPayload & { role: string };
@@ -32,13 +33,18 @@ const auth = (...requiredRoles: TUserRole[]) => {
       throw new AppError(httpStatus.UNAUTHORIZED, 'Token invalid!');
     }
     
-    const { role, email } = decoded;
+    const { role, email, company } = decoded;
     
     // checking if the user is exist
     const user = await User.isUserExists({ email });
+    // checking if company is valid or not
+    const companyData = await Company.isCompanyExists(company);
 
     if (!user) {
       throw new AppError(httpStatus.NOT_FOUND, 'This user is not found !');
+    }
+    if (!companyData) {
+      throw new AppError(httpStatus.NOT_FOUND, 'This company is not found !');
     }
     // checking if the user is already deleted
 

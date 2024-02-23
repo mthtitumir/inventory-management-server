@@ -1,5 +1,6 @@
 import { Schema, model } from 'mongoose';
 import { TSales } from './sales.interface';
+import { orderStatusArray } from './sales.constant';
 
 const salesSchema = new Schema<TSales>(
   {
@@ -9,7 +10,7 @@ const salesSchema = new Schema<TSales>(
     dateOfSale: { type: Date, required: true },
     product: { type: Schema.Types.ObjectId, ref: 'Flower', required: true },
     discount: { type: Schema.Types.ObjectId, ref: 'Discount' },
-    status: {type: String, required: true},
+    status: { type: String, enum: orderStatusArray, required: [true, "status is required!"] },
     subTotal: { type: Number, required: true },
     discountUsingCode: { type: Number, default: 0 },
     discountUsingCoins: { type: Number, default: 0 },

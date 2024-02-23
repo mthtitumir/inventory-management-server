@@ -7,7 +7,7 @@ export type TSales = {
     dateOfSale: Date;
     product: Types.ObjectId;
     discount?: Types.ObjectId;
-    status: string;
+    status: "in-review" | "processing" | "shipped" | "out-for-delivery" | "waiting-approval" | "delivered" | "cancelled" | "returned";
     subTotal: number;
     discountUsingCode?: number;
     discountUsingCoins?: number;

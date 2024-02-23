@@ -8,7 +8,7 @@ const router = express.Router();
 
 /**
  * 1. Add a sales
- * 2. Get all sales data of a user with proper filtering
+ * 2. Get all sales data with proper filtering
  * 3. Get Sales history {count, quantity, daily, weekly, monthly}
  */
 

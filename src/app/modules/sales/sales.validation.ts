@@ -8,7 +8,7 @@ const createSalesSchema = z.object({
     dateOfSale: z.date(),
     product: z.string(),
     discount: z.string().optional(),
-    status: z.string(),
+    status: z.string().optional(),
     subTotal: z.number().positive(),
     discountUsingCode: z.number().default(0),
     discountUsingCoins: z.number().default(0),

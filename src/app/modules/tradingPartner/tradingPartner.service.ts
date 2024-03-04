@@ -21,6 +21,7 @@ const getAllTradingPartnerFromDB = async (
     limit = 20,
     sortBy,
     sortOrder = 'asc',
+    select = ''
   } = query;
   const filter: Record<string, unknown> = { partnerOf: companyId };
   if (query.type) {
@@ -41,6 +42,7 @@ const getAllTradingPartnerFromDB = async (
   });
   const result = await searchQuery
     .find(filter)
+    .select(select as string)
     .sort({ [sortBy as string]: sortOrder === 'asc' ? 1 : -1 })
     .skip(skip)
     .limit(parseInt(limit as string));

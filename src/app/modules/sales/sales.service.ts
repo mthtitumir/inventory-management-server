@@ -66,7 +66,7 @@ const getAllSalesFromDB = async (query: Record<string, unknown>) => {
 const getAllSalesFromDB2 = async (query: Record<string, unknown>) => {
   const {
     searchTerm= "",
-    type,
+    status,
     startDate,
     endDate,
     range,
@@ -81,7 +81,7 @@ const getAllSalesFromDB2 = async (query: Record<string, unknown>) => {
           { note: new RegExp(searchTerm, 'i') },
         ],
       },
-      { type: type },
+      { status: status },
       // {dateOfSale: ""}
     ],
   };

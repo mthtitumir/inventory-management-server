@@ -61,7 +61,7 @@ const getSingleTradingPartnerFromDB = async (
   } else if (!partnerData) {
     throw new AppError(httpStatus.NOT_FOUND, "This partner doesn't exist!");
   } else {
-    const result = await TradingPartner.findById(tradingPartnerId);
+    const result = await TradingPartner.findById(tradingPartnerId).select("-__v -_id -type");
     return result;
   }
 };

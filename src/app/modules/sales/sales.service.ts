@@ -7,18 +7,19 @@ import Sales from './sales.model';
 import moment from 'moment';
 
 const addNewSalesIntoDB = async (salesPersonId: string, companyId: string, payload: TSales) => {
-  const flower = await Flower.isFlowerExists(payload.product);
-  if (!flower) {
-    throw new AppError(httpStatus.NOT_FOUND, "Flower does't found!");
-  }
-  const newQuantity = flower.quantity - payload.quantity;
-  if (newQuantity === 0) {
-    await Flower.findByIdAndDelete(payload.product);
-  } else {
-    await Flower.findByIdAndUpdate(payload.product, { quantity: newQuantity });
-  }
-  const result = await Sales.create({...payload, salesPerson: salesPersonId, company: companyId});
-  return result;
+  const flowerIds = payload?.items?.map((item) => item.product);
+  const flowers = await Flower.isFlowersExist(flowerIds);
+  // if (!flower) {
+  //   throw new AppError(httpStatus.NOT_FOUND, "Flower does't found!");
+  // }
+  // const newQuantity = flower.quantity - payload.quantity;
+  // if (newQuantity === 0) {
+  //   await Flower.findByIdAndDelete(payload.product);
+  // } else {
+  //   await Flower.findByIdAndUpdate(payload.product, { quantity: newQuantity });
+  // }
+  // const result = await Sales.create({...payload, salesPerson: salesPersonId, company: companyId});
+  return flowers;
 };
 
 const getAllSalesFromDB = async (query: Record<string, unknown>) => {

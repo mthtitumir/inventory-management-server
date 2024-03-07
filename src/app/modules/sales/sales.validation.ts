@@ -1,11 +1,15 @@
 import { z } from 'zod';
 
+const itemSchema = z.object({
+  product: z.string(),
+  quantity: z.number(),
+});
 const createSalesSchema = z.object({
   body: z.object({
     buyer: z.string(),
     quantity: z.number().int().positive(),
     dateOfSale: z.string().datetime(),
-    product: z.string(),
+    items: z.array(itemSchema),
     discount: z.string().optional(),
     status: z.string().optional(),
     subTotal: z.number().positive(),

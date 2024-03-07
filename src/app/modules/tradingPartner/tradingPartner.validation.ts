@@ -37,6 +37,7 @@ const UpdateTradingPartnerValidationSchema = z.object({
     province: z.string().optional(),
     zip: z.string().optional(),
     country: z.string().optional(),
+    level: z.string().optional(),
   }),
 });
 
@@ -44,6 +45,7 @@ const UpdateTradingPartnerDiscountValidationSchema = z.object({
   body: z.object({
     discountId: z.string().optional(),
     coins: z.number().optional(),
+    level: z.string().optional(),
   }),
 });
 

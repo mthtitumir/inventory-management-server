@@ -5,3 +5,5 @@ export const searchableFields = [
   'phoneNumber',
   'businessName',
 ];
+
+export const membershipLevels = ['Basic', 'Bronze', 'Silver', 'Gold', 'Diamond'];

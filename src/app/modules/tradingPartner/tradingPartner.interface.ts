@@ -19,6 +19,7 @@ export type TTradingPartner = {
   country?: string;
   discountUsed?: string[];
   coinsEarned?: number;
+  level: "Basic" | "Bronze" | "Silver" | "Gold" | "Diamond";
 };
 
 export interface TradingPartnerModel extends Model<TTradingPartner> {

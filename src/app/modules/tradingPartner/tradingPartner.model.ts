@@ -3,6 +3,7 @@ import {
   TradingPartnerModel,
   TTradingPartner,
 } from './tradingPartner.interface';
+import { membershipLevels } from './tradingPartner.constant';
 
 const tradingPartnerSchema = new Schema<TTradingPartner>({
   name: { type: String, required: true },
@@ -28,6 +29,9 @@ const tradingPartnerSchema = new Schema<TTradingPartner>({
     type: Number,
     default: 0,
   },
+  level: {
+    type: String, enum: membershipLevels, default: "Basic"
+  }
 });
 
 tradingPartnerSchema.statics.isTradingPartnerExists = function (

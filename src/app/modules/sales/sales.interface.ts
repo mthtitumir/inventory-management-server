@@ -11,7 +11,7 @@ export type TSales = {
     dateOfSale: Date;
     items: TItem[];
     discount?: Types.ObjectId;
-    status: "in-review" | "processing" | "shipped" | "out-for-delivery" | "waiting-approval" | "delivered" | "cancelled" | "returned";
+    status: "in-cart" | "in-review" | "processing" | "shipped" | "out-for-delivery" | "waiting-approval" | "delivered" | "cancelled" | "returned";
     subTotal: number;
     discountUsingCode?: number;
     discountUsingCoins?: number;

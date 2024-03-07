@@ -2,12 +2,11 @@ import { z } from 'zod';
 
 const itemSchema = z.object({
   product: z.string(),
-  quantity: z.number(),
+  quantity: z.number().int().positive(),
 });
 const createSalesSchema = z.object({
   body: z.object({
     buyer: z.string(),
-    quantity: z.number().int().positive(),
     dateOfSale: z.string().datetime(),
     items: z.array(itemSchema),
     discount: z.string().optional(),

@@ -19,7 +19,6 @@ const salesSchema = new Schema<TSales>(
     salesPerson: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     buyer: { type: Schema.Types.ObjectId, ref: 'Buyer', required: true },
     company: { type: Schema.Types.ObjectId, ref: 'Company', required: true },
-    quantity: { type: Number, required: true },
     dateOfSale: { type: Date, required: true },
     items: [itemSchema],
     discount: { type: Schema.Types.ObjectId, ref: 'Discount' },

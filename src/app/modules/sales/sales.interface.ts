@@ -7,7 +7,6 @@ export type TSales = {
     salesPerson: Types.ObjectId;
     buyer: Types.ObjectId;
     company: Types.ObjectId;
-    quantity: number;
     dateOfSale: Date;
     items: TItem[];
     discount?: Types.ObjectId;

@@ -5,6 +5,8 @@ import {
   flowerFragrance,
   flowerSize,
 } from './flower.constant';
+import AppError from '../../errors/AppError';
+import httpStatus from 'http-status';
 
 const flowerSchema = new Schema<TFlower, FlowerModel>(
   {
@@ -25,7 +27,7 @@ const flowerSchema = new Schema<TFlower, FlowerModel>(
     },
     name: { type: String, required: [true, 'Name is required!'] },
     price: { type: Number, required: [true, 'Price is required!'] },
-    quantity: { type: Number, required: [true, 'Quantity is required!'] },
+    quantity: { type: Number, min: [0, 'Quantity cannot be less than 0!'], required: [true, 'Quantity is required!'] },
     image: { type: String, required: [true, 'Image is required!'] },
     bloomDate: { type: String },
     color: { type: String, required: [true, 'Color is required!'] },
@@ -45,7 +47,7 @@ const flowerSchema = new Schema<TFlower, FlowerModel>(
       enum: flowerFragrance,
     },
   },
-  { timestamps: true },
+  { timestamps: true }, 
 );
 
 flowerSchema.statics.isFlowerExists = async function (
@@ -57,7 +59,12 @@ flowerSchema.statics.isFlowerExists = async function (
 flowerSchema.statics.isFlowersExist = async function (
   flowerIds: string[] | Schema.Types.ObjectId[],
 ) {
-  return await Flower.find({ _id: { $in: flowerIds } });
+  const flowers = await Flower.find({ _id: { $in: flowerIds } });
+  if (flowers?.length === flowerIds?.length){
+    return flowers;
+  } else {
+    throw new AppError(httpStatus.NOT_FOUND, "All the items doesn't exist!")
+  }
 };
 
 export const Flower = model<TFlower, FlowerModel>('Flower', flowerSchema);

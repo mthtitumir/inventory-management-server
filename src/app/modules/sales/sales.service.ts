@@ -6,20 +6,46 @@ import { TSales } from './sales.interface';
 import Sales from './sales.model';
 import moment from 'moment';
 
-const addNewSalesIntoDB = async (salesPersonId: string, companyId: string, payload: TSales) => {
-  const flowerIds = payload?.items?.map((item) => item.product);
-  const flowers = await Flower.isFlowersExist(flowerIds);
-  // if (!flower) {
-  //   throw new AppError(httpStatus.NOT_FOUND, "Flower does't found!");
-  // }
+const addNewSalesIntoDB = async (
+  salesPersonId: string,
+  companyId: string,
+  payload: TSales,
+) => {
+  const { items } = payload;
+  const flowerIds = items?.map((item) => item.product);
+  await Flower.isFlowersExist(flowerIds);
   // const newQuantity = flower.quantity - payload.quantity;
   // if (newQuantity === 0) {
   //   await Flower.findByIdAndDelete(payload.product);
   // } else {
   //   await Flower.findByIdAndUpdate(payload.product, { quantity: newQuantity });
   // }
-  // const result = await Sales.create({...payload, salesPerson: salesPersonId, company: companyId});
-  return flowers;
+  // update the flowers
+  try {
+    for (const { product, quantity } of items) {
+      const currentFlower = await Flower.findById(product);
+      const newQuantity = (currentFlower?.quantity as number) - quantity;
+      // Check if the update will result in a quantity less than 0
+      if (newQuantity < 0) {
+        throw new AppError(
+          httpStatus.BAD_REQUEST,
+          `Quantity exceeded, flower ${currentFlower?.name} have ${quantity} in stock`,
+        );
+      } else if (newQuantity === 0) {
+        await Flower.findByIdAndDelete(product);
+      } else {
+        await Flower.findOneAndUpdate(
+          { _id: product },
+          { $inc: { quantity: -quantity } },
+          { new: true },
+        );
+      }
+    }
+  } catch (error) {
+    throw new AppError(httpStatus.BAD_REQUEST, "Can't update the flower!");
+  }
+  const result = await Sales.create({...payload, salesPerson: salesPersonId, company: companyId});
+  return result;
 };
 
 const getAllSalesFromDB = async (query: Record<string, unknown>) => {
@@ -65,13 +91,7 @@ const getAllSalesFromDB = async (query: Record<string, unknown>) => {
   return result;
 };
 const getAllSalesFromDB2 = async (query: Record<string, unknown>) => {
-  const {
-    searchTerm= "",
-    status,
-    startDate,
-    endDate,
-    range,
-  } = query;
+  const { searchTerm = '', status, startDate, endDate, range } = query;
   const matchCondition = {
     $and: [
       {
@@ -88,36 +108,65 @@ const getAllSalesFromDB2 = async (query: Record<string, unknown>) => {
   };
 
   if (startDate && endDate) {
-    matchCondition.$and.push({ dateOfSale: { $gte: moment(startDate).startOf('day').toDate(), $lte: moment(endDate).endOf('day').toDate() } });
+    matchCondition.$and.push({
+      dateOfSale: {
+        $gte: moment(startDate).startOf('day').toDate(),
+        $lte: moment(endDate).endOf('day').toDate(),
+      },
+    });
   } else {
     switch (range) {
       case 'today':
-        matchCondition.$and.push({ dateOfSale: { $gte: moment().startOf('day').toDate(), $lte: moment().endOf('day').toDate() } });
+        matchCondition.$and.push({
+          dateOfSale: {
+            $gte: moment().startOf('day').toDate(),
+            $lte: moment().endOf('day').toDate(),
+          },
+        });
         break;
       case 'yesterday':
-        const yesterdayStart = moment().subtract(1, 'days').startOf('day').toDate();
+        const yesterdayStart = moment()
+          .subtract(1, 'days')
+          .startOf('day')
+          .toDate();
         const yesterdayEnd = moment().subtract(1, 'days').endOf('day').toDate();
-        matchCondition.$and.push({ dateOfSale: { $gte: yesterdayStart, $lte: yesterdayEnd } });
+        matchCondition.$and.push({
+          dateOfSale: { $gte: yesterdayStart, $lte: yesterdayEnd },
+        });
         break;
       case 'thisWeek':
         const startOfWeek = moment().startOf('week').toDate();
         const endOfWeek = moment().endOf('week').toDate();
-        matchCondition.$and.push({ dateOfSale: { $gte: startOfWeek, $lte: endOfWeek } });
+        matchCondition.$and.push({
+          dateOfSale: { $gte: startOfWeek, $lte: endOfWeek },
+        });
         break;
       case 'lastWeek':
-        const startOfLastWeek = moment().subtract(1, 'weeks').startOf('week').toDate();
-        const endOfLastWeek = moment().subtract(1, 'weeks').endOf('week').toDate();
-        matchCondition.$and.push({ dateOfSale: { $gte: startOfLastWeek, $lte: endOfLastWeek } });
+        const startOfLastWeek = moment()
+          .subtract(1, 'weeks')
+          .startOf('week')
+          .toDate();
+        const endOfLastWeek = moment()
+          .subtract(1, 'weeks')
+          .endOf('week')
+          .toDate();
+        matchCondition.$and.push({
+          dateOfSale: { $gte: startOfLastWeek, $lte: endOfLastWeek },
+        });
         break;
       case 'thisMonth':
         const startOfMonth = moment().startOf('month').toDate();
         const endOfMonth = moment().endOf('month').toDate();
-        matchCondition.$and.push({ dateOfSale: { $gte: startOfMonth, $lte: endOfMonth } });
+        matchCondition.$and.push({
+          dateOfSale: { $gte: startOfMonth, $lte: endOfMonth },
+        });
         break;
       case 'thisYear':
         const startOfYear = moment().startOf('year').toDate();
         const endOfYear = moment().endOf('year').toDate();
-        matchCondition.$and.push({ dateOfSale: { $gte: startOfYear, $lte: endOfYear } });
+        matchCondition.$and.push({
+          dateOfSale: { $gte: startOfYear, $lte: endOfYear },
+        });
         break;
       default:
         break;

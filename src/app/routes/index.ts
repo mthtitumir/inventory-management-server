@@ -27,6 +27,10 @@ const moduleRoutes = [
     route: FlowerRoutes,
   },
   {
+    path: '/carts',
+    route: SalesRoutes,
+  },
+  {
     path: '/sales',
     route: SalesRoutes,
   },

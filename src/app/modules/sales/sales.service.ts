@@ -14,12 +14,41 @@ const addNewSalesIntoDB = async (
   const { items } = payload;
   const flowerIds = items?.map((item) => item.product);
   await Flower.isFlowersExist(flowerIds);
-  // const newQuantity = flower.quantity - payload.quantity;
-  // if (newQuantity === 0) {
-  //   await Flower.findByIdAndDelete(payload.product);
-  // } else {
-  //   await Flower.findByIdAndUpdate(payload.product, { quantity: newQuantity });
-  // }
+  if (payload.status === 'in-cart') {
+    // Find the existing sales entry with the status "in-cart" for the buyer
+    const cartOfThisBuyer = await Sales.findOne({
+      buyer: payload.buyer,
+      status: 'in-cart',
+    });
+
+    if (cartOfThisBuyer) {
+      // If an existing cart is found, update its items
+      const updatedItems = cartOfThisBuyer?.items?.map((existingItem) => {
+        const matchingItem = items.find((newItem) =>
+          newItem.product.equals(existingItem.product),
+        );
+
+        if (matchingItem) {
+          // If the item already exists, update the quantity
+          return {
+            product: existingItem.product,
+            quantity: existingItem.quantity + matchingItem.quantity,
+          };
+        } else {
+          // If the item doesn't exist, keep the existing item
+          return existingItem;
+        }
+      });
+
+      // Update the existing cart with the updated items
+      await Sales.findByIdAndUpdate(cartOfThisBuyer._id, {
+        $set: { items: updatedItems },
+      });
+
+      // Return the updated cart without creating a new sales entry
+      return cartOfThisBuyer;
+    }
+  }
   // update the flowers
   try {
     for (const { product, quantity } of items) {
@@ -44,7 +73,27 @@ const addNewSalesIntoDB = async (
   } catch (error) {
     throw new AppError(httpStatus.BAD_REQUEST, "Can't update the flower!");
   }
-  const result = await Sales.create({...payload, salesPerson: salesPersonId, company: companyId});
+  const result = await Sales.create({
+    ...payload,
+    salesPerson: salesPersonId,
+    company: companyId,
+  });
+  return result;
+};
+
+const updateSalesIntoDB = async () => {};
+
+const getSingleSalesFromDB = async (
+  buyerId: string,
+  query: Record<string, unknown>,
+) => {
+  const filter = { buyer: buyerId };
+  console.log(filter);
+  if (query.status) {
+    filter.status = query.status;
+  }
+
+  const result = await Sales.find(filter);
   return result;
 };
 
@@ -61,11 +110,17 @@ const getAllSalesFromDB = async (query: Record<string, unknown>) => {
     range,
     from,
     to,
+    buyer,
+    status,
   } = query;
   const filter: Record<string, unknown> = {};
-  console.log(range);
-  let result = await Sales.find().populate('product');
-
+  if (buyer) {
+    filter.buyer = buyer;
+  }
+  if (status) {
+    filter.status = status;
+  }
+  let result = await Sales.find(filter);
   if (range) {
     const startOfRange = moment()
       .startOf(range)
@@ -73,8 +128,9 @@ const getAllSalesFromDB = async (query: Record<string, unknown>) => {
     const endOfRange = moment().endOf(range).format('YYYY-MM-DDTHH:mm:ss.SSSZ');
 
     result = await Sales.find({
+      ...filter,
       dateOfSale: { $gte: startOfRange, $lte: endOfRange },
-    }).populate('product');
+    });
   }
 
   if (from && to) {
@@ -84,12 +140,14 @@ const getAllSalesFromDB = async (query: Record<string, unknown>) => {
     const endOfRange = moment(to).format('YYYY-MM-DDTHH:mm:ss.SSSZ');
 
     result = await Sales.find({
+      ...filter,
       dateOfSale: { $gte: startOfRange, $lte: endOfRange },
-    }).populate('product');
+    });
   }
 
   return result;
 };
+
 const getAllSalesFromDB2 = async (query: Record<string, unknown>) => {
   const { searchTerm = '', status, startDate, endDate, range } = query;
   const matchCondition = {
@@ -233,9 +291,63 @@ const getSalesHistoryFromDB = async () => {
   return salesData;
 };
 
+// add to cart services
+const addToCartIntoDB = async (
+  salesPersonId: string,
+  companyId: string,
+  payload: Partial<TSales>,
+) => {
+  const { status, buyer, items } = payload;
+  if (status !== 'in-cart') {
+    throw new AppError(
+      httpStatus.BAD_GATEWAY,
+      'Wrong API Endpoint, this is for Add To Cart!',
+    );
+  }
+  const cartOfThisBuyer = await Sales.findOne({
+    buyer,
+    status: 'in-cart',
+  });
+
+  if (!cartOfThisBuyer) {
+    const result = await Sales.create({
+      ...payload,
+      salesPerson: salesPersonId,
+      company: companyId,
+    });
+    return result;
+  }
+
+  const updatedItems = cartOfThisBuyer?.items?.map((existingItem) => {
+    const matchingItem = items?.find((newItem) =>
+      newItem?.product == existingItem?.product,
+    );
+
+    if (matchingItem) {
+      // If the item already exists, update the quantity
+      return {
+        product: existingItem.product,
+        quantity: existingItem.quantity + matchingItem.quantity,
+      };
+    } else {
+      // If the item doesn't exist, keep the existing item
+      return existingItem;
+    }
+  });
+  return {updatedItems, note: "update api"};
+
+  // Update the existing cart with the updated items
+  // await Sales.findByIdAndUpdate(cartOfThisBuyer._id, {
+  //   $set: { items: updatedItems },
+  // });
+};
+
 export const SalesService = {
   addNewSalesIntoDB,
+  updateSalesIntoDB,
+  getSingleSalesFromDB,
   getAllSalesFromDB,
   getSalesHistoryFromDB,
   getAllSalesFromDB2,
+  addToCartIntoDB,
 };

@@ -20,11 +20,25 @@ router.post(
 );
 
 router.get(
+  '/:buyerId',
+  auth(USER_ROLE.admin, USER_ROLE.manager, USER_ROLE.seller),
+  SalesController.getSingleSales,
+);
+
+router.get(
   '/',
   auth(USER_ROLE.admin, USER_ROLE.manager, USER_ROLE.seller),
   SalesController.getAllSales,
 );
 
 router.get('/history', auth(), SalesController.getAllSales);
+
+// add to cart routes
+
+router.post('/add-to-cart', 
+auth(USER_ROLE.admin, USER_ROLE.manager, USER_ROLE.seller), 
+SalesController.addToCart
+)
+
 
 export const SalesRoutes = router;

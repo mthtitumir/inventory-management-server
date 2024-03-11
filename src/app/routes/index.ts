@@ -6,6 +6,7 @@ import { SalesRoutes } from '../modules/sales/sales.route';
 import { DiscountRoutes } from '../modules/discount/discount.route';
 import { CompanyRoutes } from '../modules/company/company.route';
 import { TradingPartnerRoutes } from '../modules/tradingPartner/tradingPartner.route';
+import { CartRoutes } from '../modules/cart/cart.route';
 
 const router = Router();
 
@@ -28,7 +29,7 @@ const moduleRoutes = [
   },
   {
     path: '/carts',
-    route: SalesRoutes,
+    route: CartRoutes,
   },
   {
     path: '/sales',

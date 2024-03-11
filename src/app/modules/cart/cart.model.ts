@@ -31,6 +31,11 @@ const cartSchema = new Schema<TCart>({
     ref: "Company"
   },
   items: [itemSchema],
+  status: {
+    type: String,
+    enum: ['in-progress', 'done'],
+    default: "in-progress",
+  }
 });
 
 // Middleware to calculate total price before saving a new item to the cart

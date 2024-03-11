@@ -22,6 +22,23 @@ const addToCart = catchAsync(async (req: CustomRequest, res) => {
   });
 });
 
+const deleteFromCart = catchAsync(async (req: CustomRequest, res) => {
+  const companyId = req?.user?.company;
+  const payload = req?.body;
+  const result = await CartService.deleteItemsFromCart(
+    companyId,
+    payload,
+  );
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Item deleted successfully!',
+    data: result,
+  });
+});
+
 export const CartController = {
   addToCart,
+  deleteFromCart,
 };

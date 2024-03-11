@@ -8,4 +8,5 @@ export type TCart = {
     buyer: Types.ObjectId;
     company: Types.ObjectId;
     items: TItem[];
+    status: 'in-progress' | 'done';
 }

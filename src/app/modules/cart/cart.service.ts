@@ -7,22 +7,27 @@ const addItemsToCartIntoDB = async (
   payload: Partial<TCart>,
 ) => {
   const { buyer, items } = payload;
-  const existingCart = await Cart.findOne({buyer});   
-  if(!existingCart){
-      const result = await Cart.create({...payload, salesPerson, company});
-      return result;
+  const existingCart = await Cart.findOne({ buyer });
+  if (!existingCart) {
+    const result = await Cart.create({ ...payload, salesPerson, company });
+    return result;
   } else {
-    // console.log({existingCart});    
+    // console.log({existingCart});
     // existingCart.items
     const newCartItems: TItem[] = [];
     items?.map((newItem) => {
-        const matchedItem = existingCart?.items?.find(existingItem => existingItem.product == newItem.product);
-        if(matchedItem){
-            newCartItems.push({product: matchedItem.product, quantity: matchedItem.quantity + newItem.quantity});
-        } else {
-            newCartItems.push(newItem);
-        }
-    })
+      const matchedItem = existingCart?.items?.find(
+        (existingItem) => existingItem.product == newItem.product,
+      );
+      if (matchedItem) {
+        newCartItems.push({
+          product: matchedItem.product,
+          quantity: matchedItem.quantity + newItem.quantity,
+        });
+      } else {
+        newCartItems.push(newItem);
+      }
+    });
     // existingCart.items?.map((existingItem) => {
     //     console.log({existingItem});
     //     const matchedItem = items?.find(item => item.product == existingItem.product);
@@ -33,13 +38,36 @@ const addItemsToCartIntoDB = async (
     //         newCartItems.push(existingItem);
     //     }
     // })
-    // console.log({newCartItems});
-    await Cart.findOneAndUpdate({buyer}, {$set: {items: newCartItems}});
+    console.log({ newCartItems });
+    // await Cart.findOneAndUpdate({buyer}, {$set: {items: newCartItems}});
     return null;
-      
-  }  
+  }
+};
+
+const deleteItemsFromCart = async (
+  company: string,
+  payload: { buyer: string; products: string[] },
+) => {
+  const { buyer, products } = payload;
+
+  await Cart.findOneAndUpdate(
+    {
+      buyer,
+      company,
+      status: 'in-progress',
+    },
+    {
+      $pull: { items: { product: { $in: products } } },
+    },
+    {
+      new: true,
+    },
+  );
+
+  return null;
 };
 
 export const CartService = {
   addItemsToCartIntoDB,
+  deleteItemsFromCart,
 };

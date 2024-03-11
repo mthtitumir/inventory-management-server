@@ -19,5 +19,11 @@ router.post(
   CartController.addToCart
 );
 
+router.delete(
+    '/',
+    auth(USER_ROLE.admin, USER_ROLE.manager, USER_ROLE.seller),
+    CartController.deleteFromCart,
+)
+
 
 export const CartRoutes = router;

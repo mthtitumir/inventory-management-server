@@ -2,7 +2,7 @@ import { Schema, model } from 'mongoose';
 import { TItem, TSales } from './sales.interface';
 import { orderStatusArray } from './sales.constant';
 
-const itemSchema = new Schema<TItem>({
+export const itemSchema = new Schema<TItem>({
   product: {
     type: Schema.Types.ObjectId,
     ref: 'Flower',
@@ -14,10 +14,11 @@ const itemSchema = new Schema<TItem>({
     default: 1,
   },
 });
+
 const salesSchema = new Schema<TSales>(
   {
     salesPerson: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-    buyer: { type: Schema.Types.ObjectId, ref: 'Buyer', required: true },
+    buyer: { type: Schema.Types.ObjectId, ref: 'TradingPartner', required: true },
     company: { type: Schema.Types.ObjectId, ref: 'Company', required: true },
     dateOfSale: { type: Date, required: true },
     items: [itemSchema],

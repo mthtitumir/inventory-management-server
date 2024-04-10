@@ -1,3 +1,4 @@
+import cartItemsSeparator from '../../utils/cartItemsSeparator';
 import { TCart } from './cart.interface';
 import Cart from './cart.model';
 
@@ -18,20 +19,10 @@ const addOrUpdateCartIntoDB = async (
     });
     return result;
   };
-  const newComingItems = [];
-  const existingComingItems = [];
-  comingItems?.forEach((item) => {
-    const index =  existingCartItems?.findIndex((i) => i.product == item.product);
-    if (index && index > -1) {
-      existingComingItems.push(item);
-    } else {
-      newComingItems.push(item);
-    }
-  });
-  return {
-    newComingItems,
-    existingComingItems,
-  }
+  const {incomingNew, incomingOld} = cartItemsSeparator(existingCartItems, comingItems);
+  // console.log({comingItems, existingCartItems});
+  
+  return {incomingNew, incomingOld}
 
   // new items are two types, 1. already exists, 2. new coming items
 
@@ -72,7 +63,7 @@ const getAllCartFromDB = async (companyId: string) => {
     company: companyId
   });
   return result;
-}
+};
 
 export const CartService = {
   addOrUpdateCartIntoDB,

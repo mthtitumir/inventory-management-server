@@ -5,12 +5,13 @@ import { itemSchema } from '../sales/sales.model';
 const cartSchema = new Schema<TCart>(
   {
     salesPerson: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    company: { type: Schema.Types.ObjectId, ref: 'Company', required: true },
     buyer: {
       type: Schema.Types.ObjectId,
       ref: 'TradingPartner',
       required: true,
+      unique: true,
     },
-    company: { type: Schema.Types.ObjectId, ref: 'Company', required: true },
     items: { type: [itemSchema], default: [] },
   },
   { timestamps: true },

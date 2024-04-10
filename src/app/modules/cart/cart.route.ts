@@ -9,9 +9,17 @@ const router = express.Router();
  */
 
 router.post(
-  '/add-to-cart',
+  '/',
   auth(USER_ROLE.admin, USER_ROLE.manager, USER_ROLE.seller),
   CartController.addOrUpdateCart,
 );
+
+router.get(
+  '/:id',
+  auth(USER_ROLE.admin, USER_ROLE.manager, USER_ROLE.seller),
+  CartController.getSingleBuyerCart,
+);
+
+
 
 export const CartRoutes = router;

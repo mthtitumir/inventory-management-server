@@ -31,7 +31,20 @@ const getSingleBuyerCart = catchAsync(async (req: CustomRequest, res) => {
   });
 });
 
+const getAllCart = catchAsync(async (req: CustomRequest, res) => {
+  const companyId = req?.user?.company;
+  const result = await CartService.getAllCartFromDB(companyId);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Company all carts retrieved successfully!',
+    data: result,
+  });
+});
+
 export const CartController = {
   addOrUpdateCart,
-  getSingleBuyerCart
+  getSingleBuyerCart,
+  getAllCart
 };

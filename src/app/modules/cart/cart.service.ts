@@ -67,7 +67,15 @@ const getSingleBuyerCartFromDB = async (buyerId: string, companyId: string) => {
   return result;
 }
 
+const getAllCartFromDB = async (companyId: string) => {
+  const result = await Cart.find({
+    company: companyId
+  });
+  return result;
+}
+
 export const CartService = {
   addOrUpdateCartIntoDB,
   getSingleBuyerCartFromDB,
+  getAllCartFromDB
 };

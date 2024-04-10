@@ -20,6 +20,12 @@ router.get(
   CartController.getSingleBuyerCart,
 );
 
+router.get(
+  '/',
+  auth(USER_ROLE.admin, USER_ROLE.manager, USER_ROLE.seller),
+  CartController.getAllCart,
+);
+
 
 
 export const CartRoutes = router;

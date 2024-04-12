@@ -1,8 +1,10 @@
 import { Types } from "mongoose";
+
 export type TItem = {
     product: Types.ObjectId;
     quantity: number;
 }
+
 export type TSales = {
     salesPerson: Types.ObjectId;
     buyer: Types.ObjectId;
@@ -10,7 +12,7 @@ export type TSales = {
     dateOfSale: Date;
     items: TItem[];
     discount?: Types.ObjectId;
-    status: "in-cart" | "in-review" | "processing" | "shipped" | "out-for-delivery" | "waiting-approval" | "delivered" | "cancelled" | "returned";
+    status: "in-review" | "processing" | "shipped" | "out-for-delivery" | "waiting-approval" | "delivered" | "cancelled" | "returned";
     subTotal: number;
     discountUsingCode?: number;
     discountUsingCoins?: number;

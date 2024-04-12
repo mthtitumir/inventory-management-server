@@ -1,5 +1,4 @@
 export const orderStatusArray = [
-    "in-cart",
     "in-review",
     "processing",
     "shipped",

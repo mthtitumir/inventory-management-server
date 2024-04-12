@@ -89,7 +89,7 @@ const getSingleBuyerCartFromDB = async (buyerId: string, companyId: string) => {
 const getAllCartFromDB = async (companyId: string) => {
   const result = await Cart.find({
     company: companyId,
-  });
+  }).populate("buyer", "_id name ");
   return result;
 };
 
@@ -98,28 +98,3 @@ export const CartService = {
   getSingleBuyerCartFromDB,
   getAllCartFromDB,
 };
-
-// new items are two types, 1. already exists, 2. new coming items
-
-//   const updatedItems = cartOfThisBuyer?.items?.map((existingItem) => {
-//     const matchingItem = items?.find(
-//       (newItem) => newItem?.product == existingItem?.product,
-//     );
-
-//     if (matchingItem) {
-//       // If the item already exists, update the quantity
-//       return {
-//         product: existingItem.product,
-//         quantity: existingItem.quantity + matchingItem.quantity,
-//       };
-//     } else {
-//       // If the item doesn't exist, keep the existing item
-//       return existingItem;
-//     }
-//   });
-//   return { updatedItems, note: 'update api' };
-
-// Update the existing cart with the updated items
-// await Sales.findByIdAndUpdate(cartOfThisBuyer._id, {
-//   $set: { items: updatedItems },
-// });

@@ -82,14 +82,14 @@ const getSingleBuyerCartFromDB = async (buyerId: string, companyId: string) => {
   const result = await Cart.findOne({
     buyer: buyerId,
     company: companyId,
-  });
+  }).populate("buyer", "_id name ").populate("items.product", "_id name price quantity");;
   return result;
 };
 
 const getAllCartFromDB = async (companyId: string) => {
   const result = await Cart.find({
     company: companyId,
-  }).populate("buyer", "_id name ");
+  }).populate("buyer", "_id name ").populate("items.product", "_id name price quantity");
   return result;
 };
 

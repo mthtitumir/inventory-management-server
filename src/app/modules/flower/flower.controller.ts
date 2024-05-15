@@ -56,6 +56,20 @@ const getSingleFlower = catchAsync(async (req: CustomRequest, res) => {
   });
 });
 
+const getManyFlower = catchAsync(async (req: CustomRequest, res) => {
+  const companyId = req?.user?.company;
+  const flowerIds = req?.body?.flowerIds;
+  const result = await FlowerService.getManyFlowerFromDB(
+    flowerIds, companyId
+  );
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Flowers retrieved successfully!',
+    data: result,
+  });
+});
+
 const getAllFlower = catchAsync(async (req, res) => {
   const result = await FlowerService.getAllFlowerFromDB(req?.query);
   sendResponse(res, {
@@ -78,11 +92,25 @@ const bulkDeleteFlower = catchAsync(async (req, res) => {
   });
 });
 
+const getBulkFlowers = catchAsync(async (req, res) => {
+  const result = await FlowerService.getBulkFlowersFromDB(
+    req?.body?.flowerIds,
+  );
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Flowers retrieved successfully!',
+    data: result,
+  });
+});
+
 export const FlowerController = {
   addFlower,
   deleteFlower,
   updateFlower,
   getSingleFlower,
+  getManyFlower,
   getAllFlower,
   bulkDeleteFlower,
+  getBulkFlowers
 };

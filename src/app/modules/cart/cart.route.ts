@@ -26,6 +26,10 @@ router.get(
   CartController.getAllCart,
 );
 
-
+router.delete(
+  '/:id',
+  auth(USER_ROLE.admin, USER_ROLE.manager, USER_ROLE.seller),
+  CartController.deleteCart,
+);
 
 export const CartRoutes = router;

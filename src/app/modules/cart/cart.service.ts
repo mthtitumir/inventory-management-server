@@ -89,7 +89,15 @@ const getSingleBuyerCartFromDB = async (buyerId: string, companyId: string) => {
 const getAllCartFromDB = async (companyId: string) => {
   const result = await Cart.find({
     company: companyId,
-  }).populate("buyer", "_id name ").populate("items.product", "_id name price quantity");
+  }).populate("buyer", "_id name ").populate("items.product", "_id name price quantity image color size");
+  return result;
+};
+
+const deleteCartFromDB = async (buyerId: string, companyId: string) => {
+  const result = await Cart.deleteOne({
+    buyer: buyerId,
+    company: companyId,
+  });
   return result;
 };
 
@@ -97,4 +105,5 @@ export const CartService = {
   addOrUpdateCartIntoDB,
   getSingleBuyerCartFromDB,
   getAllCartFromDB,
+  deleteCartFromDB
 };

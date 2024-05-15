@@ -15,7 +15,6 @@ export interface CustomRequest extends Request {
 const auth = (...requiredRoles: TUserRole[]) => {
   return catchAsync(async (req: CustomRequest, res: Response, next: NextFunction) => {
     const token = req.headers.authorization;
-
     // checking if the token is missing
     if (!token) {
       throw new AppError(httpStatus.UNAUTHORIZED, 'You are not authorized!');

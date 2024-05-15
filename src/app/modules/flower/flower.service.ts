@@ -55,7 +55,10 @@ const updateFlowerInDB = async (
   return result;
 };
 
-const getSingleFlowerFromDB = async (flowerId: string, companyId: Types.ObjectId) => {
+const getSingleFlowerFromDB = async (
+  flowerId: string,
+  companyId: Types.ObjectId,
+) => {
   const flowerData = await Flower.isFlowerExists(flowerId);
   if (!flowerData) {
     throw new AppError(httpStatus.NOT_FOUND, 'Flower does not exist!');
@@ -67,6 +70,17 @@ const getSingleFlowerFromDB = async (flowerId: string, companyId: Types.ObjectId
     );
   }
   return flowerData;
+};
+
+const getManyFlowerFromDB = async (
+  flowerIds: string[],
+  companyId: Types.ObjectId,
+) => {
+  const result = await Flower.find({
+    company: companyId,
+    _id: { $in: flowerIds },
+  });
+  return result;
 };
 
 const getAllFlowerFromDB = async (query: Record<string, unknown>) => {
@@ -121,11 +135,20 @@ const bulkDeleteFlowerFromDB = async (flowerIdArray: string[]) => {
   return result;
 };
 
+const getBulkFlowersFromDB = async (flowerIds: string[]) => {
+  // console.log({flowerIds});
+  
+  const result = await Flower.find({ _id: { $in: flowerIds } }).select("color size price quantity image");
+  return result;
+};
+
 export const FlowerService = {
   addFlowerIntoDB,
   deleteFlowerFromDB,
   updateFlowerInDB,
   getSingleFlowerFromDB,
+  getManyFlowerFromDB,
   getAllFlowerFromDB,
   bulkDeleteFlowerFromDB,
+  getBulkFlowersFromDB
 };

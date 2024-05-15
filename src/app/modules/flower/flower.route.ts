@@ -11,8 +11,9 @@ const router = express.Router();
  * 2. Delete a flower ---> DELETE /flowers/:flowerId;
  * 3. Update a flower ---> PATCH /flowers/:flowerId;
  * 4. Get a single flower ---> GET /flowers/:flowerId;
- * 5. Get all flowers depending on filter and searching and sorting query ---> GET /flowers;
- * 6. Bulk delete flowers ---> DELETE /flowers;
+ * 5. Get many flowers ---> GET /flowers/:buyer;
+ * 6. Get all flowers depending on filter and searching and sorting query ---> GET /flowers;
+ * 7. Bulk delete flowers ---> DELETE /flowers;
  */
 
 router.post(
@@ -36,6 +37,12 @@ router.patch(
 );
 
 router.get(
+  '/bulk',
+  auth(USER_ROLE.admin, USER_ROLE.manager),
+  FlowerController.getBulkFlowers,
+);
+
+router.get(
   '/:flowerId',
   auth(USER_ROLE.admin, USER_ROLE.manager, USER_ROLE.seller),
   FlowerController.getSingleFlower,
@@ -52,5 +59,6 @@ router.delete(
   auth(USER_ROLE.admin, USER_ROLE.manager),
   FlowerController.bulkDeleteFlower,
 );
+
 
 export const FlowerRoutes = router;

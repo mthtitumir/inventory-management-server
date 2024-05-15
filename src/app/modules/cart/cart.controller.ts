@@ -43,8 +43,21 @@ const getAllCart = catchAsync(async (req: CustomRequest, res) => {
   });
 });
 
+const deleteCart = catchAsync(async (req: CustomRequest, res) => {
+  const buyerId = req?.params?.id;
+  const companyId = req?.user?.company;
+  const result = await CartService.deleteCartFromDB(buyerId, companyId);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Cart deleted successfully!',
+    data: result,
+  });
+});
 export const CartController = {
   addOrUpdateCart,
   getSingleBuyerCart,
-  getAllCart
+  getAllCart,
+  deleteCart
 };

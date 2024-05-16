@@ -138,7 +138,7 @@ const bulkDeleteFlowerFromDB = async (flowerIdArray: string[]) => {
 const getBulkFlowersFromDB = async (flowerIds: string[]) => {
   // console.log({flowerIds});
   
-  const result = await Flower.find({ _id: { $in: flowerIds } }).select("color size price quantity image");
+  const result = await Flower.find({ _id: { $in: flowerIds } }).select("name color size price quantity image");
   return result;
 };
 

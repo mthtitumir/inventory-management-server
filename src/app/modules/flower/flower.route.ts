@@ -36,7 +36,7 @@ router.patch(
   FlowerController.updateFlower,
 );
 
-router.get(
+router.post(
   '/bulk',
   auth(USER_ROLE.admin, USER_ROLE.manager),
   FlowerController.getBulkFlowers,

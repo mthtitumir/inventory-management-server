@@ -93,6 +93,8 @@ const bulkDeleteFlower = catchAsync(async (req, res) => {
 });
 
 const getBulkFlowers = catchAsync(async (req, res) => {
+  console.log(req.body);
+  
   const result = await FlowerService.getBulkFlowersFromDB(
     req?.body?.flowerIds,
   );

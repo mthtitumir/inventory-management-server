@@ -14,9 +14,12 @@ const getAllUserFromDB = async (user: (JwtPayload & { role: string; }) | undefin
 };
 
 const updateUserInDB = async (user: (JwtPayload & { role: string; }) | undefined, id: string, payload: Partial<TUser>) => {
-  console.log(payload);
-
   const result = await User.findOneAndUpdate({ company: user?.company, _id: id }, { ...payload }, { new: true }).select(" name email role company");
+  return result;
+};
+
+const deleteUserFromDB = async (user: (JwtPayload & { role: string; }) | undefined, id: string, payload: Partial<TUser>) => {
+  const result = await User.findOneAndDelete({ company: user?.company, _id: id }, { ...payload });
   return result;
 };
 
@@ -24,4 +27,5 @@ export const UserServices = {
   createUserIntoDB,
   getAllUserFromDB,
   updateUserInDB,
+  deleteUserFromDB
 };

@@ -13,7 +13,7 @@ export type TUser = {
 
 export interface UserModel extends Model<TUser> {
   //instance methods for checking if the user exist
-  isUserExists(field: Record<string, unknown>): Promise<TUser>;
+  isUserExists(field: Record<string, unknown>): Promise<TUser & {_id: string}>;
   //instance methods for checking if passwords are matched
   isPasswordMatched(
     plainTextPassword: string,

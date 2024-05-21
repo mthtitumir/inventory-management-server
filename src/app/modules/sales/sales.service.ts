@@ -9,6 +9,15 @@ import { Discount } from '../discount/discount.model';
 import { TradingPartner } from '../tradingPartner/tradingPartner.model';
 import mongoose from 'mongoose';
 
+type RangeType = 'day' | 'week' | 'month' | 'year';
+
+interface QueryParams {
+  from?: string;
+  to?: string;
+  range?: RangeType;
+  [key: string]: unknown;
+}
+
 const addNewSalesIntoDB = async (
   salesPersonId: string,
   companyId: string,
@@ -88,7 +97,7 @@ const updateSalesIntoDB = async () => {};
 //   return result;
 // };
 
-const getAllSalesFromDB = async (query: Record<string, unknown>) => {
+const getAllSalesFromDB = async (query: QueryParams) => {
   // need search/ filter query update later
   // range === 'day' | 'week' | 'month' | 'year'
   const { range, from, to } = query;

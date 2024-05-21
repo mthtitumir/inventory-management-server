@@ -4,8 +4,9 @@ import httpStatus from 'http-status';
 import { UserServices } from './user.service';
 import { CustomRequest } from '../../middlewares/auth';
 
-const createUser = catchAsync(async (req, res) => {
-  const result = await UserServices.createUserIntoDB(req.body);
+const createUser = catchAsync(async (req: CustomRequest, res) => {
+  const user = req.user;
+  const result = await UserServices.createUserIntoDB(user, req.body);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -27,7 +28,20 @@ const getAllUser = catchAsync(async (req: CustomRequest, res) => {
   });
 });
 
+const updateUser = catchAsync(async (req: CustomRequest, res) => {
+  const user = req?.user;
+  const result = await UserServices.updateUserInDB(user, req.query);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'User updated successfully!',
+    data: result,
+  });
+});
+
 export const UserControllers = {
   createUser,
   getAllUser,
+  updateUser
 };

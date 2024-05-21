@@ -14,6 +14,7 @@ const router = express.Router();
 router.post(
   '/',
   validateRequest(UserValidation.createUserValidationSchema),
+  auth(USER_ROLE.admin, USER_ROLE.manager),
   UserControllers.createUser,
 );
 
@@ -21,6 +22,12 @@ router.get(
   '/',
   auth(USER_ROLE.admin, USER_ROLE.manager, USER_ROLE.seller),
   UserControllers.getAllUser,
+);
+
+router.get(
+  '/:id',
+  auth(USER_ROLE.admin, USER_ROLE.manager),
+  UserControllers.updateUser,
 );
 
 export const UserRoutes = router;

@@ -14,7 +14,7 @@ const createSalesSchema = z.object({
     subTotal: z.number().positive(),
     discountUsingCode: z.number().default(0),
     discountUsingCoins: z.number().default(0),
-    shippingCharge: z.number().positive(),
+    shippingCharge: z.number().positive().optional(),
     total: z.number().positive(),
     note: z.string().optional(),
   }),

@@ -2,6 +2,7 @@ import sendResponse from '../../utils/sendResponse';
 import catchAsync from '../../utils/catchAsync';
 import httpStatus from 'http-status';
 import { UserServices } from './user.service';
+import { CustomRequest } from '../../middlewares/auth';
 
 const createUser = catchAsync(async (req, res) => {
   const result = await UserServices.createUserIntoDB(req.body);
@@ -14,6 +15,19 @@ const createUser = catchAsync(async (req, res) => {
   });
 });
 
+const getAllUser = catchAsync(async (req: CustomRequest, res) => {
+  const user = req?.user;
+  const result = await UserServices.getAllUserFromDB(user, req.query);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'All users retrieved successfully!',
+    data: result,
+  });
+});
+
 export const UserControllers = {
   createUser,
+  getAllUser,
 };

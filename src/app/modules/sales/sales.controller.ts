@@ -18,17 +18,17 @@ const addNewSales = catchAsync(async (req: CustomRequest, res) => {
   });
 });
 
-const getSingleSales = catchAsync(async (req, res) => {
-  const buyerId = req.params.buyerId;
-  const result = await SalesService.getSingleSalesFromDB(buyerId, req.query);
+// const getSingleSales = catchAsync(async (req, res) => {
+//   const buyerId = req.params.buyerId;
+//   const result = await SalesService.getSingleSalesFromDB(buyerId, req.query);
 
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'Single sales retrieved successfully!',
-    data: result,
-  });
-});
+//   sendResponse(res, {
+//     statusCode: httpStatus.OK,
+//     success: true,
+//     message: 'Single sales retrieved successfully!',
+//     data: result,
+//   });
+// });
 
 const getAllSales = catchAsync(async (req, res) => {
   const result = await SalesService.getAllSalesFromDB(req.query);
@@ -52,24 +52,9 @@ const getAllSalesHistory = catchAsync(async (req, res) => {
   });
 });
 
-const addToCart = catchAsync(async (req: CustomRequest, res) => {
-  const salesPersonId = req?.user?._id;
-  const companyId = req?.user?.company;
-  const payload = req?.body;
-  const result = await SalesService.addToCartIntoDB(salesPersonId, companyId, payload);
-
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'Item add to cart successfully!',
-    data: result,
-  });
-})
-
 export const SalesController = {
   addNewSales,
-  getSingleSales,
+  // getSingleSales,
   getAllSales,
   getAllSalesHistory,
-  addToCart
 };

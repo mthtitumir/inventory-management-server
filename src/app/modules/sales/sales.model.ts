@@ -26,12 +26,12 @@ const salesSchema = new Schema<TSales>(
     status: {
       type: String,
       enum: orderStatusArray,
-      required: [true, 'status is required!'],
+      default: "in-review"
     },
     subTotal: { type: Number, required: true },
     discountUsingCode: { type: Number, default: 0 },
     discountUsingCoins: { type: Number, default: 0 },
-    shippingCharge: { type: Number, required: true },
+    shippingCharge: { type: Number, default: 0 },
     total: { type: Number, required: true },
     note: { type: String, default: '' },
   },

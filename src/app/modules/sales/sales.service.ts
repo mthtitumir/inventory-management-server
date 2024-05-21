@@ -101,7 +101,7 @@ const getAllSalesFromDB = async (query: QueryParams) => {
   // need search/ filter query update later
   // range === 'day' | 'week' | 'month' | 'year'
   const { range, from, to } = query;
-  let result = await Sales.find().sort({ createdAt: -1 }).populate("buyer", "_id name");
+  let result = await Sales.find().sort({ dateOfSale: -1 }).populate("buyer", "_id name");
   if (range) {
     const startOfRange = moment()
       .startOf(range)
@@ -110,7 +110,7 @@ const getAllSalesFromDB = async (query: QueryParams) => {
 
     result = await Sales.find({
       dateOfSale: { $gte: startOfRange, $lte: endOfRange },
-    }).sort({ createdAt: -1 }).populate("buyer", "_id name");
+    }).sort({ dateOfSale: -1 }).populate("buyer", "_id name");
   }
 
   if (from && to) {
@@ -121,7 +121,7 @@ const getAllSalesFromDB = async (query: QueryParams) => {
 
     result = await Sales.find({
       dateOfSale: { $gte: startOfRange, $lte: endOfRange },
-    }).sort({ createdAt: -1 }).populate("buyer", "_id name");
+    }).sort({ dateOfSale: -1 }).populate("buyer", "_id name");
   }
 
   return result;

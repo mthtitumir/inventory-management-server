@@ -10,7 +10,7 @@ const addNewDiscountIntoDB = async (payload: TDiscount) => {
 };
 
 const getAllDiscountFromDB = async (companyId: string) => {
-  const result = await Discount.find({ company: companyId }).select("code startDate endDate startTime endTime percentOff amountOff minOrderValue minOrderQuantity limitPerCustomer");
+  const result = await Discount.find({ company: companyId }).select("code startDate endDate startTime endTime percentOff amountOff minOrderValue minOrderQuantity limitPerCustomer valid type");
   return result;
 };
 

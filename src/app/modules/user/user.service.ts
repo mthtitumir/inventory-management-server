@@ -13,8 +13,10 @@ const getAllUserFromDB = async (user: (JwtPayload & { role: string; }) | undefin
   return result;
 };
 
-const updateUserInDB = async (user: (JwtPayload & { role: string; }) | undefined, query: Record<string, unknown>) => {
-  const result = await User.find({ company: user?.company, ...query }).select("name email role");
+const updateUserInDB = async (user: (JwtPayload & { role: string; }) | undefined, id: string, payload: Partial<TUser>) => {
+  console.log(payload);
+
+  const result = await User.findOneAndUpdate({ company: user?.company, _id: id }, { ...payload }, { new: true }).select(" name email role company");
   return result;
 };
 

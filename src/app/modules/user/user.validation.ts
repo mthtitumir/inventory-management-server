@@ -7,7 +7,6 @@ const createUserValidationSchema = z.object({
     role: z.string().optional(),
     name: z.string(),
     profilePicture: z.string().optional(),
-    company: z.string(),
   })
 });
 

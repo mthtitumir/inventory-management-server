@@ -13,19 +13,25 @@ const getAllUserFromDB = async (user: (JwtPayload & { role: string; }) | undefin
   return result;
 };
 
+const getMeFromDB = async (id: string) => {
+  const result = await User.findById(id).select("name email role");
+  return result;
+};
+
 const updateUserInDB = async (user: (JwtPayload & { role: string; }) | undefined, id: string, payload: Partial<TUser>) => {
   const result = await User.findOneAndUpdate({ company: user?.company, _id: id }, { ...payload }, { new: true }).select(" name email role company");
   return result;
 };
 
-const deleteUserFromDB = async (user: (JwtPayload & { role: string; }) | undefined, id: string, payload: Partial<TUser>) => {
-  const result = await User.findOneAndDelete({ company: user?.company, _id: id }, { ...payload });
+const deleteUserFromDB = async (user: (JwtPayload & { role: string; }) | undefined, id: string) => {
+  const result = await User.deleteOne({ company: user?.company, _id: id });
   return result;
 };
 
 export const UserServices = {
   createUserIntoDB,
   getAllUserFromDB,
+  getMeFromDB,
   updateUserInDB,
   deleteUserFromDB
 };

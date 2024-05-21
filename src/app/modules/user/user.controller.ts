@@ -28,6 +28,17 @@ const getAllUser = catchAsync(async (req: CustomRequest, res) => {
   });
 });
 
+const getMe = catchAsync(async (req: CustomRequest, res) => {
+  const result = await UserServices.getMeFromDB(req?.user?._id);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Your data retrieved successfully!',
+    data: result,
+  });
+});
+
 const updateUser = catchAsync(async (req: CustomRequest, res) => {
   const user = req?.user;
   const id = req.params.id;
@@ -44,7 +55,7 @@ const updateUser = catchAsync(async (req: CustomRequest, res) => {
 const deleteUser = catchAsync(async (req: CustomRequest, res) => {
   const user = req?.user;
   const id = req.params.id;
-  const result = await UserServices.deleteUserFromDB(user, id, req.body);
+  const result = await UserServices.deleteUserFromDB(user, id);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -57,6 +68,7 @@ const deleteUser = catchAsync(async (req: CustomRequest, res) => {
 export const UserControllers = {
   createUser,
   getAllUser,
+  getMe,
   updateUser,
   deleteUser
 };

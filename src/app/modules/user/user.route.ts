@@ -24,6 +24,12 @@ router.get(
   UserControllers.getAllUser,
 );
 
+router.get(
+  '/me',
+  auth(USER_ROLE.admin, USER_ROLE.manager, USER_ROLE.seller, USER_ROLE.superAdmin),
+  UserControllers.getMe,
+);
+
 router.patch(
   '/:id',
   validateRequest(UserValidation.updateUserValidationSchema),

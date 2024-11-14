@@ -34,7 +34,7 @@ app.use(cors(corsOptions));
 app.use('/api/v1', router);
 
 const test = (req: Request, res: Response) => {
-  res.send({ message: 'Welcome to Flora Vista Api!' });
+  res.send({ message: 'Go where you from!' });
 };
 
 app.get('/', test);

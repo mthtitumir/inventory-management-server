@@ -9,6 +9,7 @@ const router = express.Router();
 
 /**
  * 1. Add a User ---> POST /users;
+ * 2. Get all users of a company ---> GET /users;
  */
 
 router.post(
@@ -20,21 +21,28 @@ router.post(
 
 router.get(
   '/',
-  auth(USER_ROLE.admin, USER_ROLE.manager, USER_ROLE.seller),
+  auth(USER_ROLE.admin, USER_ROLE.manager, USER_ROLE.moderator),
   UserControllers.getAllUser,
 );
 
 router.get(
   '/me',
-  auth(USER_ROLE.admin, USER_ROLE.manager, USER_ROLE.seller, USER_ROLE.superAdmin),
+  auth(USER_ROLE.admin, USER_ROLE.manager, USER_ROLE.moderator, USER_ROLE.superAdmin),
   UserControllers.getMe,
 );
 
 router.patch(
-  '/:id',
+  '/update-me',
   validateRequest(UserValidation.updateUserValidationSchema),
-  auth(USER_ROLE.admin, USER_ROLE.manager),
+  auth(USER_ROLE.admin, USER_ROLE.manager, USER_ROLE.moderator, USER_ROLE.superAdmin),
   UserControllers.updateUser,
+);
+
+router.patch(
+  '/update-company-member/:id',
+  validateRequest(UserValidation.updateUserAccessSchema),
+  auth(USER_ROLE.admin),
+  UserControllers.updateUserAccess,
 );
 
 router.delete(

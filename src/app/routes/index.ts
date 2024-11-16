@@ -7,6 +7,7 @@ import { DiscountRoutes } from '../modules/discount/discount.route';
 import { CompanyRoutes } from '../modules/company/company.route';
 import { TradingPartnerRoutes } from '../modules/tradingPartner/tradingPartner.route';
 import { CartRoutes } from '../modules/cart/cart.route';
+import { ProductRoutes } from '../modules/product/product.routes';
 
 const router = Router();
 
@@ -18,6 +19,10 @@ const moduleRoutes = [
   {
     path: '/users',
     route: UserRoutes,
+  },
+  {
+    path: '/products',
+    route: ProductRoutes,
   },
   {
     path: '/trading-partners',

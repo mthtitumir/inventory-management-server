@@ -41,8 +41,20 @@ const getMe = catchAsync(async (req: CustomRequest, res) => {
 
 const updateUser = catchAsync(async (req: CustomRequest, res) => {
   const user = req?.user;
+  const result = await UserServices.updateUserInDB(user, req.body);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'User updated successfully!',
+    data: result,
+  });
+});
+
+const updateUserAccess = catchAsync(async (req: CustomRequest, res) => {
+  const user = req?.user;
   const id = req.params.id;
-  const result = await UserServices.updateUserInDB(user, id, req.body);
+  const result = await UserServices.updateUserAccessInDB(user, id, req.body);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -70,5 +82,6 @@ export const UserControllers = {
   getAllUser,
   getMe,
   updateUser,
+  updateUserAccess,
   deleteUser
 };

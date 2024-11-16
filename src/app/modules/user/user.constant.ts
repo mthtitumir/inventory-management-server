@@ -1,6 +1,7 @@
 export const USER_ROLE = {
-  seller: 'seller',
-  manager: 'manager',
   superAdmin: 'superAdmin',
+  moderator: 'moderator',
+  manager: 'manager',
   admin: 'admin',
 } as const;
+//admin means owner of the company

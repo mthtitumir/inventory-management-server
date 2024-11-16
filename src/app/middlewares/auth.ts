@@ -28,17 +28,17 @@ const auth = (...requiredRoles: TUserRole[]) => {
         config.jwt_access_secret as string,
       ) as JwtPayload;
     } catch (error) {
-      // console.log(errror);
+      // console.log(error);
       throw new AppError(httpStatus.UNAUTHORIZED, 'Token invalid!');
     }
-    
-    const { role, email, company } = decoded;
-    
+
+    const { role, email, companyId } = decoded;
+
     // checking if the user is exist
     const user = await User.isUserExists({ email });
     // checking if company is valid or not
-    const companyData = await Company.isCompanyExists(company);
-    
+    const companyData = await Company.isCompanyExists(companyId);
+
 
     if (!user) {
       throw new AppError(httpStatus.NOT_FOUND, 'This user is not found !');
@@ -46,33 +46,23 @@ const auth = (...requiredRoles: TUserRole[]) => {
     if (!companyData) {
       throw new AppError(httpStatus.NOT_FOUND, 'This company is not found !');
     }
-    if(user.company != company){
+    if (user.companyId != companyId) {
       throw new AppError(httpStatus.NOT_FOUND, "This user doesn't belong to this company !");
     }
     // checking if the user is already deleted
 
-    // const isDeleted = user?.isDeleted;
+    const isDeleted = user?.isDeleted;
 
-    // if (isDeleted) {
-    //   throw new AppError(httpStatus.FORBIDDEN, 'This user is deleted !');
-    // }
+    if (isDeleted) {
+      throw new AppError(httpStatus.FORBIDDEN, 'This user is deleted !');
+    }
 
     // checking if the user is blocked
-    // const userStatus = user?.status;
+    const isBlocked = user?.isBlocked;
 
-    // if (userStatus === 'blocked') {
-    //   throw new AppError(httpStatus.FORBIDDEN, 'This user is blocked ! !');
-    // }
-
-    // if (
-    //   user.passwordChangedAt &&
-    //   User.isJWTIssuedBeforePasswordChanged(
-    //     user.passwordChangedAt,
-    //     iat as number,
-    //   )
-    // ) {
-    //   throw new AppError(httpStatus.UNAUTHORIZED, 'You are not authorized !');
-    // }
+    if (isBlocked) {
+      throw new AppError(httpStatus.FORBIDDEN, 'This user is blocked ! !');
+    }
 
     if (requiredRoles && !requiredRoles.includes(role)) {
       throw new AppError(
@@ -80,7 +70,7 @@ const auth = (...requiredRoles: TUserRole[]) => {
         'You are not authorized  hi!',
       );
     }
-    
+
     req.user = decoded as JwtPayload & { role: string };
     next();
   });

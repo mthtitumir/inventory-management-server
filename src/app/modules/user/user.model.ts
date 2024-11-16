@@ -4,6 +4,11 @@ import config from '../../config';
 import { TUser, UserModel } from './user.interface';
 const userSchema = new Schema<TUser, UserModel>(
   {
+    username: {
+      type: String,
+      required: [true, 'Username is required!'],
+      unique: true,
+    },
     email: {
       type: String,
       required: [true, 'Email is required!'],
@@ -15,20 +20,32 @@ const userSchema = new Schema<TUser, UserModel>(
     },
     role: {
       type: String,
-      enum: ['superAdmin', 'admin', 'manager', 'seller'],
-      default: 'seller',
+      enum: ['superAdmin', 'admin', 'manager', 'moderator'],
+      default: 'moderator',
     },
-    name: {
+    companyId: {
+      type: Schema.Types.ObjectId,
+      ref: 'Company'
+    },
+    firstName: {
       type: String,
-      required: [true, 'Name is required!'],
+      required: [true, 'First name is required!'],
+    },
+    lastName: {
+      type: String,
+      required: [true, 'Last name is required!'],
     },
     profilePicture: {
       type: String,
     },
-    company: { 
-      type: Schema.Types.ObjectId, 
-      ref: 'Company' 
-    }
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
+    isBlocked: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,
@@ -50,7 +67,7 @@ userSchema.post('save', function (doc, next) {
   doc.password = '';
   next();
 });
-userSchema.statics.isUserExists = async function (field: Record<string, unknown>) {  
+userSchema.statics.isUserExists = async function (field: Record<string, unknown>) {
   return await User.findOne(field).select('+password');
 };
 

@@ -16,7 +16,7 @@ const createCompany = catchAsync(async (req, res) => {
 });
 
 const getMyCompany = catchAsync(async (req: CustomRequest, res) => {
-  const result = await CompanyServices.getMyCompanyFromDB(req?.user?.company);
+  const result = await CompanyServices.getMyCompanyFromDB(req?.user?.companyId);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -27,7 +27,7 @@ const getMyCompany = catchAsync(async (req: CustomRequest, res) => {
 });
 
 const updateCompany = catchAsync(async (req: CustomRequest, res) => {
-  const result = await CompanyServices.updateCompanyIntoDB(req?.user?.company, req?.body);
+  const result = await CompanyServices.updateCompanyIntoDB(req?.user?.companyId, req?.body);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,

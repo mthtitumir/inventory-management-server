@@ -12,7 +12,7 @@ const createCompanyIntoDB = async (payload: TCompanyPayload) => {
   const { companyData, adminData } = payload;
   const newCompany = await Company.create(companyData);
   if(newCompany){
-    await User.create({...adminData, company: newCompany?._id, role: "admin"});
+    await User.create({...adminData, companyId: newCompany?._id, role: "admin"});
   }
   return newCompany;
 };

@@ -42,7 +42,7 @@ const createProductSchema = z.object({
             currency: z.enum([...currencyEnum]),
         }),
         images: z.array(productImageSchema),
-        variations: z.array(productVariationSchema),
+        variations: z.array(productVariationSchema).optional(),
         reviews: z.array(productReviewSchema).optional(),
         ratingsAverage: z.number().min(0).max(5).optional(),
         ratingsCount: z.number().int().nonnegative().optional(),

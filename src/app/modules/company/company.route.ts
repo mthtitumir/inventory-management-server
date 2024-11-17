@@ -21,7 +21,7 @@ router.post(
 
 router.get(
   '/',
-  auth(USER_ROLE.admin, USER_ROLE.manager, USER_ROLE.seller),
+  auth(USER_ROLE.admin, USER_ROLE.manager, USER_ROLE.moderator),
   CompanyControllers.getMyCompany,
 );
 

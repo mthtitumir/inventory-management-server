@@ -8,6 +8,9 @@ import { CompanyRoutes } from '../modules/company/company.route';
 import { TradingPartnerRoutes } from '../modules/tradingPartner/tradingPartner.route';
 import { CartRoutes } from '../modules/cart/cart.route';
 import { ProductRoutes } from '../modules/product/product.routes';
+import { CategoryRoutes } from '../modules/category/category.routes';
+import { SubcategoryRoutes } from '../modules/subcategory/subcategory.routes';
+import { BrandRoutes } from '../modules/brand/brand.routes';
 
 const router = Router();
 
@@ -23,6 +26,22 @@ const moduleRoutes = [
   {
     path: '/products',
     route: ProductRoutes,
+  },
+  {
+    path: '/product-categories',
+    route: CategoryRoutes,
+  },
+  {
+    path: '/product-subcategories',
+    route: SubcategoryRoutes,
+  },
+  {
+    path: '/product-brands',
+    route: BrandRoutes,
+  },
+  {
+    path: '/reviews',
+    route: BrandRoutes,
   },
   {
     path: '/trading-partners',

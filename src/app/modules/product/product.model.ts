@@ -55,4 +55,4 @@ const ProductSchema = new Schema<TProduct>({
     isNewArrival: { type: Boolean, default: false },
 }, { timestamps: true });
 
-export const Product = model<TProduct>('Flower', ProductSchema);
+export const Product = model<TProduct>('Product', ProductSchema);

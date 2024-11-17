@@ -39,19 +39,19 @@ router.patch(
 
 router.get(
   '/:productId',
-  auth(USER_ROLE.admin, USER_ROLE.manager, USER_ROLE.seller),
+  auth(USER_ROLE.admin, USER_ROLE.manager, USER_ROLE.moderator),
   ProductController.getSingleProduct,
 );
 
 router.get(
   '/category/:category',
-  auth(USER_ROLE.admin, USER_ROLE.manager, USER_ROLE.seller),
+  auth(USER_ROLE.admin, USER_ROLE.manager, USER_ROLE.moderator),
   ProductController.getProductsByCategory,
 );
 
 router.get(
   '/',
-  auth(USER_ROLE.admin, USER_ROLE.manager, USER_ROLE.seller),
+  auth(USER_ROLE.admin, USER_ROLE.manager, USER_ROLE.moderator),
   ProductController.getAllProducts,
 );
 

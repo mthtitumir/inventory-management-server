@@ -14,7 +14,7 @@ const app: Application = express();
 app.use(express.json());
 // app.use(cors({ origin: ['http://localhost:5173', 'https://flower-management-client-iota.vercel.app', 'https://flower-management-client-mthtitumir.vercel.app'], credentials: true }));
 // app.use(cors());
-const allowedOrigins = ['http://localhost:5173', 'https://flower-management-client-iota.vercel.app', 'https://flower-management-client-mthtitumir.vercel.app'];
+const allowedOrigins = ['http://localhost:5173', 'http://localhost:3000', 'https://flower-management-client-iota.vercel.app', 'https://flower-management-client-mthtitumir.vercel.app'];
 
 const corsOptions = {
   origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {

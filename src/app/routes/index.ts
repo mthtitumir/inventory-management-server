@@ -11,6 +11,7 @@ import { ProductRoutes } from '../modules/product/product.routes';
 import { CategoryRoutes } from '../modules/category/category.routes';
 import { SubcategoryRoutes } from '../modules/subcategory/subcategory.routes';
 import { BrandRoutes } from '../modules/brand/brand.routes';
+import { SeedRoutes } from '../modules/seed/seed.routes';
 
 const router = Router();
 
@@ -18,6 +19,10 @@ const moduleRoutes = [
   {
     path: '/companies',
     route: CompanyRoutes,
+  },
+  {
+    path: '/seed',
+    route: SeedRoutes,
   },
   {
     path: '/users',

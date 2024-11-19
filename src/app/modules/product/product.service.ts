@@ -2,9 +2,11 @@ import httpStatus from 'http-status';
 import AppError from '../../errors/AppError';
 import { TProduct } from './product.interface';
 import { Product } from './product.model';
+import { JwtPayload } from 'jsonwebtoken';
+type JwtUser = (JwtPayload & { role: string; }) | undefined;
 
-const addProductToDB = async (payload: TProduct) => {
-  const productData = { ...payload };
+const addProductToDB = async (payload: TProduct, user: JwtUser) => {
+  const productData = { ...payload, companyId: user?.companyId };
   const result = await Product.create(productData);
   return result;
 };
@@ -45,7 +47,7 @@ const getProductsByCategoryFromDB = async (category: string) => {
   return result;
 };
 
-const getAllProductsFromDB = async (query: Record<string, unknown>) => {
+const getAllProductsFromDB = async (query: Record<string, unknown>, user: JwtUser) => {
   const {
     searchTerm = '',
     page = 1,
@@ -54,7 +56,7 @@ const getAllProductsFromDB = async (query: Record<string, unknown>) => {
     sortOrder = 'asc',
   } = query;
 
-  const filter: Record<string, unknown> = {};
+  const filter: Record<string, unknown> = { companyId: user?.companyId };
   if (query.minPrice || query.maxPrice) {
     filter.price = {
       $gte: parseInt(query.minPrice as string),
@@ -64,9 +66,15 @@ const getAllProductsFromDB = async (query: Record<string, unknown>) => {
   if (query.category) {
     filter.category = query.category;
   }
+  if (query.subcategory) {
+    filter.subcategory = query.subcategory;
+  }
+  if (query.brand) {
+    filter.brand = query.brand;
+  }
 
   const skip = (Number(page) - 1) * Number(limit);
-  const productSearchableFields = ['name', 'description', 'category'];
+  const productSearchableFields = ['name'];
   const searchQuery = Product.find({
     $or: productSearchableFields.map((field) => ({
       [field]: { $regex: searchTerm, $options: 'i' },

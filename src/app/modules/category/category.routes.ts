@@ -9,6 +9,7 @@ const router = express.Router();
 
 /**
  * 1. Add a Category ---> POST /product-categories;
+ * 2. Get all categories ---> GET product-categories;
  */
 
 router.post(
@@ -16,6 +17,11 @@ router.post(
   validateRequest(CategoryValidation.createCategorySchema),
   auth(USER_ROLE.admin, USER_ROLE.manager),
   CategoryControllers.createCategory
+);
+router.get(
+  '/',
+  auth(USER_ROLE.admin, USER_ROLE.manager, USER_ROLE.moderator),
+  CategoryControllers.getAllCategories
 );
 
 export const CategoryRoutes = router;

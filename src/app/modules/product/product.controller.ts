@@ -6,7 +6,7 @@ import { CustomRequest } from '../../middlewares/auth';
 
 const addProduct = catchAsync(async (req: CustomRequest, res) => {
     const payload = req.body;
-    const result = await ProductService.addProductToDB(payload);
+    const result = await ProductService.addProductToDB(payload, req?.user);
     sendResponse(res, {
         success: true,
         statusCode: httpStatus.OK,
@@ -60,8 +60,8 @@ const getProductsByCategory = catchAsync(async (req: CustomRequest, res) => {
     });
 });
 
-const getAllProducts = catchAsync(async (req, res) => {
-    const result = await ProductService.getAllProductsFromDB(req.query);
+const getAllProducts = catchAsync(async (req: CustomRequest, res) => {
+    const result = await ProductService.getAllProductsFromDB(req.query, req?.user);
     sendResponse(res, {
         success: true,
         statusCode: httpStatus.OK,

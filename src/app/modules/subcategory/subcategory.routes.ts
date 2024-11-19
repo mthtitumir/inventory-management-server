@@ -9,6 +9,7 @@ const router = express.Router();
 
 /**
  * 1. Add a Subcategory ---> POST /product-subcategories;
+ * 2. Get all subcategories ---> GET /product-subcategories;
  */
 
 router.post(
@@ -16,6 +17,11 @@ router.post(
   validateRequest(SubcategoryValidation.createSubcategorySchema),
   auth(USER_ROLE.admin, USER_ROLE.manager),
   SubcategoryControllers.createSubcategory
+);
+router.get(
+  '/',
+  auth(USER_ROLE.admin, USER_ROLE.manager, USER_ROLE.moderator),
+  SubcategoryControllers.getAllSubcategories
 );
 
 export const SubcategoryRoutes = router;

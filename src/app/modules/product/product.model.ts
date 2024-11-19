@@ -41,6 +41,7 @@ const ProductSchema = new Schema<TProduct>({
     category: { type: Schema.Types.ObjectId, ref: 'Category', required: true },
     subcategory: { type: Schema.Types.ObjectId, ref: 'Subcategory', required: true },
     brand: { type: Schema.Types.ObjectId, ref: 'Brand' },
+    companyId: { type: Schema.Types.ObjectId, ref: 'Company' },
     price: {
         amount: { type: Number, required: true },
         currency: { type: String, default: 'USD' },

@@ -5,9 +5,10 @@ export type TProduct = {
     name: string;
     description: string;
     SKU: string;
-    category: string | Schema.Types.ObjectId;
-    subcategory: string | Schema.Types.ObjectId;
+    category?: string | Schema.Types.ObjectId;
+    subcategory?: string | Schema.Types.ObjectId;
     brand?: string | Schema.Types.ObjectId;
+    companyId?: string | Schema.Types.ObjectId;
     price: {
         amount: number;
         currency: string;

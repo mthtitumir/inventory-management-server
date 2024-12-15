@@ -2,10 +2,11 @@ import { TBrand } from "../brand/brand.interface";
 import { Brand } from "../brand/brand.model";
 import { TCategory } from "../category/category.interface";
 import { Category } from "../category/category.model";
-import { TProduct } from "../product/product.interface";
+// import { TProduct } from "../product/product.interface";
 import { Product } from "../product/product.model";
 import { TSubcategory } from "../subcategory/subcategory.interface";
 import { Subcategory } from "../subcategory/subcategory.model";
+import { dummyProducts } from "./seed.constants";
 
 const seedBrandIntoDB = async () => {
   const data: TBrand[] = [];
@@ -23,8 +24,8 @@ const seedSubcategoryIntoDB = async () => {
   return newSeed;
 };
 const seedProductIntoDB = async () => {
-  const data: TProduct[] = [];
-  const newSeed = await Product.insertMany(data);
+  // const data: TProduct[] = [];
+  const newSeed = await Product.insertMany(dummyProducts);
   return newSeed;
 };
 

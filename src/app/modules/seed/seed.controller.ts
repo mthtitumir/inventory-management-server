@@ -14,7 +14,19 @@ const seedBrand = catchAsync(async (req, res) => {
     });
 });
 
+const seedProduct = catchAsync(async (req, res) => {
+    const result = await SeedServices.seedProductIntoDB();
+
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: 'Product seeded successfully!',
+        data: result,
+    });
+});
+
 
 export const SeedControllers = {
     seedBrand,
+    seedProduct
 };

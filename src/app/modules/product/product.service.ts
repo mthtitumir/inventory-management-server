@@ -35,11 +35,24 @@ const updateProductInDB = async (
 };
 
 const getSingleProductFromDB = async (productId: string) => {
-  const productData = await Product.findById(productId);
-  if (!productData) {
+  const product = await Product.findById(productId).populate("brand category subcategory");
+  if (!product) {
     throw new AppError(httpStatus.NOT_FOUND, 'Product does not exist!');
   }
-  return productData;
+  const mainImages = product.images.map((img) => img.url);
+  const variantImages = product.variants.flatMap((variant) => variant.images);
+  const allImages = [...mainImages, ...variantImages];
+  // Calculate total quantity
+  const totalQuantity = product.variants.reduce((sum, variant) => sum + (variant.quantity || 0), 0);
+
+  // Format the response
+  const response = {
+    ...product.toObject(),
+    allImages,
+    totalQuantity,
+  };
+
+  return response;
 };
 
 const getProductsByCategoryFromDB = async (category: string) => {
@@ -83,6 +96,7 @@ const getAllProductsFromDB = async (query: Record<string, unknown>, user: JwtUse
 
   const result = await searchQuery
     .find(filter)
+    .populate("brand category subcategory")
     .sort({ [sortBy as string]: sortOrder === 'asc' ? 1 : -1 })
     .skip(skip)
     .limit(parseInt(limit as string));

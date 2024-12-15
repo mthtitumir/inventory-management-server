@@ -7,5 +7,9 @@ router.post(
   '/seed-brand',
   SeedControllers.seedBrand
 );
+router.post(
+  '/seed-products',
+  SeedControllers.seedProduct
+);
 
 export const SeedRoutes = router;

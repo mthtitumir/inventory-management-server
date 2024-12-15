@@ -13,7 +13,7 @@ const router = express.Router();
  * 3. Update a product ---> PATCH /products/:productId;
  * 4. Get a single product ---> GET /products/:productId;
  * 5. Get products by category ---> GET /products/category/:category;
- * 6. Get all products with filtering, searching, and sorting ---> GET /products;
+ * 6. Get all products of a company with filtering, searching, and sorting ---> GET /products;
  * 7. Bulk delete products ---> DELETE /products;
  */
 
@@ -22,7 +22,7 @@ router.post(
   auth(USER_ROLE.admin, USER_ROLE.manager),
   validateRequest(ProductValidation.createProductSchema),
   ProductController.addProduct,
-);
+); //working
 
 router.delete(
   '/:productId',
@@ -41,7 +41,7 @@ router.get(
   '/:productId',
   auth(USER_ROLE.admin, USER_ROLE.manager, USER_ROLE.moderator),
   ProductController.getSingleProduct,
-);
+); //working
 
 router.get(
   '/category/:category',
@@ -53,7 +53,7 @@ router.get(
   '/',
   auth(USER_ROLE.admin, USER_ROLE.manager, USER_ROLE.moderator),
   ProductController.getAllProducts,
-);
+); // working
 
 router.delete(
   '/',

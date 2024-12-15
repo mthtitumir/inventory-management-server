@@ -1,21 +1,43 @@
 import { Schema } from "mongoose";
 
+export type TProductImage = {
+    url: string;
+    alt?: string;
+}
+
+export type TProductAttribute = {
+    name: string;        // e.g., "Color", "Size"
+    value?: string;  // For select type attributes
+}
+
+export type TProductVariant = {
+    // productId: Schema.Types.ObjectId | string;
+    sku: string;
+    attributes: TProductAttribute[]; // e.g., [{name: "color", value: "red"}, {value: "size", value: "XL"}]
+    price: number;
+    quantity: number;
+    status: "in_stock" | "out_of_stock" | "pre_order";
+    images: string[];
+    isDefault: boolean;
+}
+
 export type TProduct = {
     _id: string;
     name: string;
     description: string;
-    SKU: string;
+    sku: string;
     category?: string | Schema.Types.ObjectId;
     subcategory?: string | Schema.Types.ObjectId;
     brand?: string | Schema.Types.ObjectId;
-    companyId?: string | Schema.Types.ObjectId;
-    price: {
-        amount: number;
-        currency: string;
-    };
+    companyId: string | Schema.Types.ObjectId;
+    variants: TProductVariant[];
     images: TProductImage[];
-    variations: TProductVariation[];
-    reviews?: TProductReview[];
+    seo?: {
+        title?: string;
+        description?: string;
+        keywords?: string[];
+    };
+    // metadata?: Record<string, string | number | boolean>;
     ratingsAverage?: number;
     ratingsCount?: number;
     tags?: string[];
@@ -25,33 +47,17 @@ export type TProduct = {
     updatedAt: Date;
 }
 
-export type TProductImage = {
-    url: string;
-    alt?: string;
-}
-
-export type TProductReview = {
-    userId: string | Schema.Types.ObjectId;
-    rating: number;
-    comment?: string;
-}
-
-export type TProductVariation = {
-    _id: string;
-    productId: string | Schema.Types.ObjectId;
-    SKU: string;
-    attributes: TProductAttribute[];
-    priceAdjustment?: number;
-    stock: {
-        quantity: number;
-        status: 'in_stock' | 'out_of_stock' | 'pre_order';
-    };
-    images?: TProductImage[];
-    createdAt: Date;
-    updatedAt: Date;
-}
-
-export type TProductAttribute = {
-    name: string;
-    value: string;
-}
+// interface ProductReview {
+//     id: string;
+//     productId: string;
+//     variantId?: string;
+//     userId: string;
+//     rating: number;
+//     title?: string;
+//     content: string;
+//     images?: string[];
+//     helpful: number;
+//     verified: boolean;
+//     createdAt: string;
+//     updatedAt: string;
+// }

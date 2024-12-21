@@ -3,15 +3,59 @@ import AppError from '../../errors/AppError';
 import { TProduct } from './product.interface';
 import { Product } from './product.model';
 import { JwtPayload } from 'jsonwebtoken';
+import { ProductVariant } from '../productVariant/productVariant.model';
+import { TProductVariant } from '../productVariant/productVariant.interface';
+import mongoose from 'mongoose';
 type JwtUser = (JwtPayload & { role: string; }) | undefined;
 
-const addProductToDB = async (payload: TProduct, user: JwtUser) => {
-  const productData = { ...payload, companyId: user?.companyId };
-  const result = await Product.create(productData);
-  return result;
+type TPayloadProduct = {
+  variants: TProductVariant[];
+  [key: string]: unknown;
+}
+
+const addProductToDB = async (payload: TPayloadProduct, user: JwtUser) => {
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
+  try {
+    const { variants, ...data } = payload;
+    const productData = { ...data, companyId: user?.companyId };
+
+    // Create the product and use the session to ensure it's part of the transaction
+    const product = await Product.create([productData], { session });
+
+    if (!product) {
+      throw new AppError(httpStatus.NOT_MODIFIED, 'Product adding failed!');
+    }
+
+    // Prepare variants with productId and associate the session
+    const variantsWithProductId = variants?.map(variant => ({
+      ...variant,
+      productId: product[0]?._id
+    }));
+
+    // Insert variants and associate the session
+    const newVariants = await ProductVariant.insertMany(variantsWithProductId, { session });
+
+    // If everything is successful, commit the transaction
+    await session.commitTransaction();
+    session.endSession(); // End the session
+
+    return {
+      product: product[0],
+      newVariants
+    };
+  } catch (error) {
+    // If anything fails, abort the transaction to roll back the changes
+    await session.abortTransaction();
+    session.endSession(); // End the session
+
+    // Re-throw the error to be handled by the caller
+    throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, `Error adding product!`);
+  }
 };
 
-const deleteProductFromDB = async (productId: string) => {
+const deleteProductFromDB = async (productId: string) => { //no need for now
   const productData = await Product.findById(productId);
   if (!productData) {
     throw new AppError(httpStatus.NOT_FOUND, 'Product does not exist!');
@@ -40,10 +84,11 @@ const getSingleProductFromDB = async (productId: string) => {
     throw new AppError(httpStatus.NOT_FOUND, 'Product does not exist!');
   }
   const mainImages = product.images.map((img) => img.url);
-  const variantImages = product.variants.flatMap((variant) => variant.images);
+  const productVariants = await ProductVariant.find({ productId });
+  const variantImages = productVariants.flatMap((variant) => variant.images);
   const allImages = [...mainImages, ...variantImages];
   // Calculate total quantity
-  const totalQuantity = product.variants.reduce((sum, variant) => sum + (variant.quantity || 0), 0);
+  const totalQuantity = productVariants.reduce((sum, variant) => sum + (variant.quantity || 0), 0);
 
   // Format the response
   const response = {

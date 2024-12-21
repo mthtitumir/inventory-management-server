@@ -11,7 +11,6 @@ const productAttributeSchema = z.object({
 });
 
 const productVariantSchema = z.object({
-    // productId: z.string().optional(),
     sku: z.string(),
     attributes: z.array(productAttributeSchema),
     price: z.number().default(0),

@@ -1,4 +1,4 @@
-import { Schema } from "mongoose";
+import { Model, Schema, Types } from "mongoose";
 
 export type TProductAttribute = {
     name: string;        // e.g., "Color", "Size"
@@ -16,4 +16,8 @@ export type TProductVariant = {
     status: "in_stock" | "out_of_stock" | "pre_order";
     images: string[];
     isDefault: boolean;
+}
+export interface ProductVariantModel extends Model<TProductVariant> {
+    isProductVariantExists(productVariantId: string | Types.ObjectId): Promise<TProductVariant>;
+    isProductVariantsExist(productVariantIds: string[] | Types.ObjectId[]): Promise<TProductVariant[]>;
 }

@@ -2,24 +2,24 @@
 import { Model, Types } from 'mongoose';
 
 export type TTradingPartner = {
+  _id?: string | Types.ObjectId;
+  type: 'buyer' | 'supplier' | 'both';
   name: string;
   email: string;
   phoneNumber: string;
-  type: "buyer" | "supplier";
-  businessName?: string;
   profilePicture?: string;
-  partnerOf?: Types.ObjectId;
-  jobTitle?: string;
+  partnerOf?: Types.ObjectId | string;
+  designation?: string;
   website?: string;
-  note?: string;
+  description?: string;
   address?: string;
   city?: string;
   province?: string;
   zip?: string;
   country?: string;
-  discountUsed?: string[];
-  coinsEarned?: number;
-  level: "Basic" | "Bronze" | "Silver" | "Gold" | "Diamond";
+  businessInfo?: {
+    name?: string;
+  };
 };
 
 export interface TradingPartnerModel extends Model<TTradingPartner> {

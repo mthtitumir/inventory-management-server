@@ -1,7 +1,6 @@
 /* eslint-disable no-case-declarations */
 import httpStatus from 'http-status';
 import AppError from '../../errors/AppError';
-import { Flower } from '../flower/flower.model';
 import { TSales } from './sales.interface';
 import Sales from './sales.model';
 import moment from 'moment';
@@ -23,62 +22,62 @@ const addNewSalesIntoDB = async (
   companyId: string,
   payload: TSales,
 ) => {
-  const { items, discount, buyer } = payload;
-  const flowerIds = items?.map((item) => item.product);
-  await Flower.isFlowersExist(flowerIds);
-  const session = await mongoose.startSession();
-  try {
-    session.startTransaction();
-    // update the flowers
-    try {
-      for (const { product, quantity } of items) {
-        const currentFlower = await Flower.findById(product);
-        const newQuantity = (currentFlower?.quantity as number) - quantity;
-        // Check if the update will result in a quantity less than 0
-        if (newQuantity < 0) {
-          throw new AppError(
-            httpStatus.BAD_REQUEST,
-            `Quantity exceeded, flower ${currentFlower?.name} have ${quantity} in stock`,
-          );
-        } else if (newQuantity === 0) {
-          await Flower.findByIdAndDelete(product, { session });
-        } else {
-          await Flower.findOneAndUpdate(
-            { _id: product },
-            { $inc: { quantity: -quantity } },
-            { new: true, session },
-          );
-        }
-      }
-    } catch (error) {
-      throw new AppError(httpStatus.BAD_REQUEST, "Can't update the flower!");
-    }
-    // update trading partner data
-    if (discount) {
-      const discountData = await Discount.isDiscountExists(discount);
-      if (!discountData) {
-        throw new AppError(httpStatus.NOT_FOUND, 'No discount found!');
-      }
-      await TradingPartner.findByIdAndUpdate(
-        buyer,
-        { $push: { discountUsed: discount } },
-        { new: true, session },
-      );
-    }
-    // add sales
-    const result = await Sales.create({
-      ...payload,
-      salesPerson: salesPersonId,
-      company: companyId,
-    });
-    await session.commitTransaction();
-    await session.endSession();
-    return result;
-  } catch (error) {
-    await session.abortTransaction();
-    await session.endSession();
-    throw new AppError(httpStatus.CONFLICT, 'Sales add failed!');
-  }
+  // const { items, discount, buyer } = payload;
+  // const flowerIds = items?.map((item) => item.product);
+  // // await Flower.isFlowersExist(flowerIds);
+  // const session = await mongoose.startSession();
+  // try {
+  //   session.startTransaction();
+  //   // update the flowers
+  //   try {
+  //     for (const { product, quantity } of items) {
+  //       const currentFlower = await Flower.findById(product);
+  //       const newQuantity = (currentFlower?.quantity as number) - quantity;
+  //       // Check if the update will result in a quantity less than 0
+  //       if (newQuantity < 0) {
+  //         throw new AppError(
+  //           httpStatus.BAD_REQUEST,
+  //           `Quantity exceeded, flower ${currentFlower?.name} have ${quantity} in stock`,
+  //         );
+  //       } else if (newQuantity === 0) {
+  //         await Flower.findByIdAndDelete(product, { session });
+  //       } else {
+  //         await Flower.findOneAndUpdate(
+  //           { _id: product },
+  //           { $inc: { quantity: -quantity } },
+  //           { new: true, session },
+  //         );
+  //       }
+  //     }
+  //   } catch (error) {
+  //     throw new AppError(httpStatus.BAD_REQUEST, "Can't update the flower!");
+  //   }
+  //   // update trading partner data
+  //   if (discount) {
+  //     const discountData = await Discount.isDiscountExists(discount);
+  //     if (!discountData) {
+  //       throw new AppError(httpStatus.NOT_FOUND, 'No discount found!');
+  //     }
+  //     await TradingPartner.findByIdAndUpdate(
+  //       buyer,
+  //       { $push: { discountUsed: discount } },
+  //       { new: true, session },
+  //     );
+  //   }
+  //   // add sales
+  //   const result = await Sales.create({
+  //     ...payload,
+  //     salesPerson: salesPersonId,
+  //     company: companyId,
+  //   });
+  //   await session.commitTransaction();
+  //   await session.endSession();
+  //   return result;
+  // } catch (error) {
+  //   await session.abortTransaction();
+  //   await session.endSession();
+  //   throw new AppError(httpStatus.CONFLICT, 'Sales add failed!');
+  // }
 };
 
 const updateSalesIntoDB = async () => {};

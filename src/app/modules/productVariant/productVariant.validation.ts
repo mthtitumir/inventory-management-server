@@ -8,6 +8,7 @@ const productAttributeSchema = z.object({
 // Schema for creating a new product
 const createProductVariantSchema = z.object({
     body: z.object({
+        name: z.string(),
         productId: z.string(),
         sku: z.string(),
         attributes: z.array(productAttributeSchema),
@@ -15,20 +16,19 @@ const createProductVariantSchema = z.object({
         quantity: z.number().default(0),
         status: z.enum(['in_stock', 'out_of_stock', 'pre_order']).default("in_stock"),
         images: z.array(z.string()).optional(),
-        isDefault: z.boolean().default(false),
     }),
 });
 
 // Schema for updating an existing product (all fields optional)
 const updateProductVariantSchema = z.object({
     body: z.object({
-        sku: z.string(),
-        attributes: z.array(productAttributeSchema),
-        price: z.number().default(0),
-        quantity: z.number().default(0),
-        status: z.enum(['in_stock', 'out_of_stock', 'pre_order']).default("in_stock"),
+        name: z.string().optional(),
+        sku: z.string().optional(),
+        attributes: z.array(productAttributeSchema).optional(),
+        price: z.number().default(0).optional(),
+        quantity: z.number().default(0).optional(),
+        status: z.enum(['in_stock', 'out_of_stock', 'pre_order']).default("in_stock").optional(),
         images: z.array(z.string()).optional(),
-        isDefault: z.boolean().default(false),
     }),
 });
 

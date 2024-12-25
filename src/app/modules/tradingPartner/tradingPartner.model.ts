@@ -3,34 +3,24 @@ import {
   TradingPartnerModel,
   TTradingPartner,
 } from './tradingPartner.interface';
-import { membershipLevels } from './tradingPartner.constant';
 
 const tradingPartnerSchema = new Schema<TTradingPartner>({
+  type: { type: String, enum: ['buyer', 'supplier', 'both'], required: true },
   name: { type: String, required: true },
-  email: { type: String, required: true },
-  phoneNumber: { type: String, required: true },
-  type: { type: String, enum: ["buyer", "supplier"], required: [true, "Trading partner type is required!"] },
-  businessName: { type: String, default: 'N/A' },
+  email: { type: String },
+  phoneNumber: { type: String },
   profilePicture: { type: String },
   partnerOf: { type: Schema.Types.ObjectId, ref: 'Company', required: true },
-  jobTitle: { type: String },
+  designation: { type: String },
   website: { type: String },
-  note: { type: String },
+  description: { type: String },
   address: { type: String },
   city: { type: String },
   province: { type: String },
   zip: { type: String },
   country: { type: String },
-  discountUsed: {
-    type: [String],
-    default: [],
-  },
-  coinsEarned: {
-    type: Number,
-    default: 0,
-  },
-  level: {
-    type: String, enum: membershipLevels, default: "Basic"
+  businessInfo: {
+    name: { type: String },
   }
 });
 

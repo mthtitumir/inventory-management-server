@@ -17,42 +17,42 @@ const addProductToDB = async (payload: TPayloadProduct, user: JwtUser) => {
   const session = await mongoose.startSession();
   session.startTransaction();
 
-  try {
-    const { variants, ...data } = payload;
-    const productData = { ...data, companyId: user?.companyId };
+  const { variants, ...data } = payload;
+  const productData = { ...data, companyId: user?.companyId };
+  console.log({ payload })
 
-    // Create the product and use the session to ensure it's part of the transaction
-    const product = await Product.create([productData], { session });
+  // Create the product and use the session to ensure it's part of the transaction
+  const product = await Product.create([productData], { session });
 
-    if (!product) {
-      throw new AppError(httpStatus.NOT_MODIFIED, 'Product adding failed!');
-    }
-
-    // Prepare variants with productId and associate the session
-    const variantsWithProductId = variants?.map(variant => ({
-      ...variant,
-      productId: product[0]?._id
-    }));
-
-    // Insert variants and associate the session
-    const newVariants = await ProductVariant.insertMany(variantsWithProductId, { session });
-
-    // If everything is successful, commit the transaction
-    await session.commitTransaction();
-    session.endSession(); // End the session
-
-    return {
-      product: product[0],
-      newVariants
-    };
-  } catch (error) {
-    // If anything fails, abort the transaction to roll back the changes
-    await session.abortTransaction();
-    session.endSession(); // End the session
-
-    // Re-throw the error to be handled by the caller
-    throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, `Error adding product!`);
+  if (!product) {
+    throw new AppError(httpStatus.NOT_MODIFIED, 'Product adding failed!');
   }
+
+  // Prepare variants with productId and associate the session
+  const variantsWithProductId = variants?.map(variant => ({
+    ...variant,
+    productId: product[0]?._id
+  }));
+
+  // Insert variants and associate the session
+  const newVariants = await ProductVariant.insertMany(variantsWithProductId, { session });
+
+  // If everything is successful, commit the transaction
+  await session.commitTransaction();
+  session.endSession(); // End the session
+
+  return {
+    product: product[0],
+    newVariants
+  };
+  // } catch (error) {
+  //   // If anything fails, abort the transaction to roll back the changes
+  //   await session.abortTransaction();
+  //   session.endSession(); // End the session
+
+  //   // Re-throw the error to be handled by the caller
+  //   throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, `Error adding product!`);
+  // }
 };
 
 const deleteProductFromDB = async (productId: string) => { //no need for now
@@ -94,6 +94,7 @@ const getSingleProductFromDB = async (productId: string) => {
   const response = {
     ...product.toObject(),
     allImages,
+    variants: productVariants,
     totalQuantity,
   };
 
@@ -139,13 +140,13 @@ const getAllProductsFromDB = async (query: Record<string, unknown>, user: JwtUse
     })),
   });
 
-  const result = await searchQuery
+  const products = await searchQuery
     .find(filter)
     .populate("brand category subcategory")
     .sort({ [sortBy as string]: sortOrder === 'asc' ? 1 : -1 })
     .skip(skip)
     .limit(parseInt(limit as string));
-  return result;
+  return products;
 };
 
 const bulkDeleteProductsFromDB = async (productIdArray: string[]) => {

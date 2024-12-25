@@ -6,6 +6,7 @@ export type TProductAttribute = {
 }
 
 export type TProductVariant = {
+    name: string;
     productId: Schema.Types.ObjectId | string;
     companyId: Schema.Types.ObjectId | string;
     sku: string;

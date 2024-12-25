@@ -10,7 +10,7 @@ const ProductImageSchema = new Schema<TProductImage>({
 const ProductSchema = new Schema<TProduct>({
     name: { type: String, required: true, trim: true },
     description: { type: String, required: true },
-    sku: { type: String, unique: true, required: true },
+    sku: { type: String, required: true },
     category: { type: Schema.Types.ObjectId, ref: 'Category', required: true },
     subcategory: { type: Schema.Types.ObjectId, ref: 'Subcategory', required: true },
     brand: { type: Schema.Types.ObjectId, ref: 'Brand' },

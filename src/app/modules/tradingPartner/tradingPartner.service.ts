@@ -3,11 +3,10 @@ import AppError from '../../errors/AppError';
 import { Company } from '../company/company.model';
 import { TTradingPartner } from './tradingPartner.interface';
 import { TradingPartner } from './tradingPartner.model';
-import { Discount } from '../discount/discount.model';
 import { searchableFields } from './tradingPartner.constant';
 
-const addNewTradingPartnerIntoDB = async (payload: TTradingPartner) => {
-  const result = await TradingPartner.create(payload);
+const addNewTradingPartnerIntoDB = async (payload: TTradingPartner, companyId: string) => {
+  const result = await TradingPartner.create({...payload, partnerOf: companyId });
   return result;
 };
 
@@ -90,92 +89,9 @@ const updateTradingPartnerIntoDB = async (
   }
 };
 
-const updateDiscountCoinsUsedIntoDB = async (
-  companyId: string,
-  tradingPartnerId: string,
-  payload: { discountId: string | undefined; coins: number | undefined },
-) => {
-  const { discountId, coins } = payload;
-  const companyData = await Company.isCompanyExists(companyId);
-  const partnerData =
-    await TradingPartner.isTradingPartnerExists(tradingPartnerId);
-  const discountData = await Discount.isDiscountExists(discountId as string);
-  const discountCount = await TradingPartner.aggregate([
-    { $unwind: '$discountUsed' },
-    {
-      $match: {
-        discountUsed: discountId,
-      },
-    },
-    {
-      $group: {
-        _id: null,
-        count: { $sum: 1 },
-      },
-    },
-  ]);
-  const discountCountTimes =
-    discountCount.length > 0 ? discountCount[0].count : 0;
-
-  if (!companyData) {
-    throw new AppError(httpStatus.NOT_FOUND, 'Unauthorized staff!');
-  } else if (!partnerData) {
-    throw new AppError(httpStatus.NOT_FOUND, "This partner doesn't exist!");
-  } else {
-    if (!discountId && coins) {
-      if ((partnerData?.coinsEarned as number) < coins) {
-        throw new AppError(
-          httpStatus.NOT_FOUND,
-          "Buyer doesn't have enough coins to use!",
-        );
-      }
-      const result = await TradingPartner.findByIdAndUpdate(tradingPartnerId, {
-        coinsEarned: (partnerData?.coinsEarned as number) - coins,
-      });
-      return result;
-    } else if (discountId && !coins) {
-      if (!discountData) {
-        throw new AppError(httpStatus.NOT_FOUND, 'Discount not found!');
-      }
-      if (discountCountTimes >= (discountData.limitPerCustomer as number)) {
-        throw new AppError(
-          httpStatus.NOT_IMPLEMENTED,
-          'Discount limit exceeded!',
-        );
-      }
-      const result = await TradingPartner.findByIdAndUpdate(
-        tradingPartnerId,
-        { $push: { discountUsed: discountId } },
-        { new: true },
-      );
-      return result;
-    } else {
-      if ((partnerData?.coinsEarned as number) < coins!) {
-        throw new AppError(
-          httpStatus.NOT_FOUND,
-          "Buyer doesn't have enough coins to use!",
-        );
-      }
-      if (!discountData) {
-        throw new AppError(httpStatus.NOT_FOUND, 'Discount not found!');
-      }
-      const result = await TradingPartner.findByIdAndUpdate(
-        tradingPartnerId,
-        {
-          $push: { discountUsed: discountId },
-          $set: { coinsEarned: (partnerData?.coinsEarned as number) - (coins as number) },
-        },
-        { new: true },
-      );
-      return result;
-    }
-  }
-};
-
 export const TradingPartnerServices = {
   addNewTradingPartnerIntoDB,
   getAllTradingPartnerFromDB,
   getSingleTradingPartnerFromDB,
   updateTradingPartnerIntoDB,
-  updateDiscountCoinsUsedIntoDB,
 };

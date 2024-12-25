@@ -7,8 +7,9 @@ const ProductAttributeSchema = new Schema<TProductAttribute>({
 });
 
 const ProductVariantSchema = new Schema<TProductVariant>({
+    name: { type: String, required: true },
     productId: { type: Schema.Types.ObjectId, ref: 'Product', required: true },
-    sku: { type: String, required: true, unique: true },
+    sku: { type: String, required: true },
     attributes: [ProductAttributeSchema],
     price: { type: Number, required: true },
     quantity: { type: Number, default: 0 },
